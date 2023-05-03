@@ -62,12 +62,12 @@ public class ConsoleManager {
         String cmd = userCmd[NAME_CMD];
         String arg = userCmd[ARG_CMD];
         switch (cmd) {
-            case HELP:
-                if (commandManager.help(arg)) {
+            case HELP:{
+
                     historyWriter.addInHistory(HELP);
                     return SUCCESSFUL_EXECUTION;
+
                 }
-                break;
             case "":
                 ConsoleManager.printError("Well... This is an empty line... Maybe you want to ask something?");
                 break;

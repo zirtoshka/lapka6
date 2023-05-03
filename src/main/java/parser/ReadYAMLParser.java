@@ -2,8 +2,8 @@ package parser;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import org.example.data.StudyGroup;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import data.StudyGroup;
 
 
 import java.io.*;

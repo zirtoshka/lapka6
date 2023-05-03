@@ -1,11 +1,14 @@
 package data;
 
-import org.example.IO.ConsoleManager;
-import org.example.exceptions.IncorrectValueException;
-import org.example.exceptions.IncorrectValuesForGroupException;
-import org.example.exceptions.NotNullException;
 
-public class Coordinates {
+import IO.ConsoleManager;
+import exceptions.IncorrectValueException;
+import exceptions.IncorrectValuesForGroupException;
+import exceptions.NotNullException;
+
+import java.io.Serializable;
+
+public class Coordinates implements Serializable {
     private Double coordinatesX; //Максимальное значение поля: 576, Поле не может быть null
     public static final Double MAX_X = 576D;
     public static final Float MIN_Y = -596F;

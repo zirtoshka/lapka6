@@ -1,19 +1,23 @@
 package data;
 
 
-import org.example.IO.ConsoleManager;
-import org.example.exceptions.IncorrectValueException;
-import org.example.exceptions.IncorrectValuesForGroupException;
-import org.example.exceptions.NotNullException;
-import org.example.exceptions.WrongNameException;
+
+
+import IO.ConsoleManager;
+import exceptions.IncorrectValueException;
+import exceptions.IncorrectValuesForGroupException;
+import exceptions.NotNullException;
+import exceptions.WrongNameException;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-import static org.example.IO.ScannerManager.patternSymbols;
+import static IO.ScannerManager.patternSymbols;
 
-public class StudyGroup {
+
+public class StudyGroup implements Serializable {
     private Integer id; //Поле не может быть null,
     // Значение поля должно быть больше 0,
     // Значение этого поля должно быть уникальным,

@@ -3,6 +3,7 @@ package client;
 
 import commands.Connect;
 import exceptions.Disconnect;
+import static config.ConfigData.CAPACITY_BUFFER;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -23,8 +24,10 @@ public class Client {
         this.port = p;
         serializer = new Serializer();
         deserializer = new Deserializer();
-        buffer = ByteBuffer.allocate(100000);
+        buffer = ByteBuffer.allocate(CAPACITY_BUFFER);
+        System.out.println(1);
         findServer();
+        System.out.println(2);
     }
 
     public String run(Object o1){
@@ -35,6 +38,7 @@ public class Client {
             out = (String) getObject();
             close();
         } catch (IOException e){
+            System.out.println(e);
             return "Отсутствует связь с сервером.";
         }
         return out;
@@ -54,7 +58,7 @@ public class Client {
             try {
                 client.read(buffer);
                 Object o = deserializer.deserialize(buffer);
-                buffer = ByteBuffer.allocate(100000);
+                buffer = ByteBuffer.allocate(CAPACITY_BUFFER);
                 return o;
             } catch (Exception e) {
 //                e.printStackTrace();
@@ -70,6 +74,7 @@ public class Client {
         System.out.println("Подключаюсь к серверу...");
         String result = run(new Connect("connect","подключение к серверу."));
         if(!(result.equals("Выполнение успешно.\n"))) {
+            System.out.println(result);
             throw new Disconnect("Подключение не установлено");
         }
         System.out.println(result);

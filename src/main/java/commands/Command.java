@@ -1,9 +1,10 @@
 package commands;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Objects;
 
-public abstract class Command {
+public abstract class Command implements Serializable {
     private final String name;
     private final String description;
 

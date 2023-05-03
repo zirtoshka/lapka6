@@ -1,11 +1,13 @@
 package utilities;
 
-import org.example.IO.ConsoleManager;
-import org.example.data.StudyGroup;
-import org.example.exceptions.NotNullException;
-import org.example.parser.ReadYAMLParser;
-import org.example.parser.WriteYAMLParses;
 
+
+
+import IO.ConsoleManager;
+import data.StudyGroup;
+import exceptions.NotNullException;
+import parser.ReadYAMLParser;
+import parser.WriteYAMLParses;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,6 +22,8 @@ public class FileManager {
     public FileManager(String fileName){
         this.fileName = fileName;
         path = System.getenv("PWD")+"/"+fileName;
+//        System.out.println(System.getenv("PWD"));
+//        path="/Users/zirtoshka/прога/lapka6/src/main/java/utilities/test.yml";
     }
 
 

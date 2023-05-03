@@ -2,6 +2,7 @@ package commands;
 
 
 import utilities.CollectionManager;
+import utilities.Module;
 
 public class InfoCommand extends Command {
     private CollectionManager collectionManager;
@@ -15,7 +16,7 @@ public class InfoCommand extends Command {
 
     @Override
     public boolean execute() {
-
+        Module.addMessage(collectionManager.printInfo());
         return true;
     }
 }

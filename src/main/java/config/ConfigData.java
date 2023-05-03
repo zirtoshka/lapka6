@@ -1,7 +1,7 @@
 package config;
 
 public class ConfigData {
-
+    public static int CAPACITY_BUFFER = 100000; //100000
     public static final String inputCommand = "$ ";
     public static final String inputInfo = "> ";
     public static final int NUMBER_OF_CMD = 12;
@@ -21,4 +21,5 @@ public class ConfigData {
     public static final String SAVE = "save";
     public static final String SHOW = "show";
     public static final String UPDATE_BY_ID = "update_by_id";
+    public static final String CONNECT="connect";
 }

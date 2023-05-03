@@ -1,6 +1,8 @@
 package data;
 
-public enum ColorEye {
+import java.io.Serializable;
+
+public enum ColorEye implements Serializable {
     GREEN("GREEN"),
     YELLOW("YELLOW"),
     BROWN("BROWN"),

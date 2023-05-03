@@ -8,12 +8,14 @@ import commands.*;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
 
-import static config.ConfigData.NUMBER_OF_CMD;
+import static config.ConfigData.*;
 
 public class CommandManager {
 
-    private final List<Command> commands = new LinkedList<>();
+    public static final List<Command> commands = new LinkedList<>();
 
     private final HelpCommand helpCmd;
     private final InfoCommand infoCmd;
@@ -35,8 +37,8 @@ public class CommandManager {
     private final Client client;
 
     public CommandManager(Client client) {
-        this.client=client;
-        this.helpCmd = new HelpCommand();
+        this.client = client;
+
         this.infoCmd = new InfoCommand();
         this.showCmd = new ShowCommand();
         this.addCmd = new AddCommand();
@@ -52,7 +54,8 @@ public class CommandManager {
         this.filterContainsNameCmd = new FilterContainsNameCommand();
         this.printFieldDescendingSemesterCmd = new PrintFieldDescendingSemesterCommand();
         this.printUniqueAdminCmd = new PrintUniqueGroupAdminCommand();
-
+        this.helpCmd = new HelpCommand(infoCmd,showCmd,addCmd,updateByIdCmd,removeByIdCmd,clearCmd,saveCmd,
+                executeScriptCmd,exitCmd,headCmd,addIfMaxCmd,historyCmd,filterContainsNameCmd,printUniqueAdminCmd,printFieldDescendingSemesterCmd);
         commands.add(helpCmd);
         commands.add(infoCmd);
         commands.add(showCmd);
@@ -78,15 +81,12 @@ public class CommandManager {
         return showCmd.execute();
     }
 
-    public boolean help(String arg) throws IOException {
-        if (helpCmd.execute()) {
-            for (Command cmd : commands) {
-                ConsoleManager.printInfoPurpleBackground("Command name - " + cmd.getName() + ". Command's description: " + cmd.getDescription());
-            }
-            return true;
-        } else {
-            return false;
+    public static String help() {
+        String res="";
+        for (Command cmd : commands) {
+            res+=("Command name - " + cmd.getName() + ". Command's description: " + cmd.getDescription() + "\n");
         }
+        return res;
     }
 
     public boolean add(String arg) throws IOException {
@@ -139,6 +139,44 @@ public class CommandManager {
 
     public boolean printFieldDescendingSemester(String arg) throws IOException {
         return printFieldDescendingSemesterCmd.execute();
+    }
+
+    public void managerWork(String s) throws IOException {
+        String[] data = cmdParser(s);
+        switch (data[0]) {
+            case HELP: {
+                System.out.println("Запускаю команду " + helpCmd.getName() + " ...");
+                System.out.println(client.run(helpCmd));
+                break;
+            }case INFO:{
+                System.out.println("Запускаю команду " + infoCmd.getName() + " ...");
+                System.out.println(client.run(infoCmd));
+            }
+            default:
+                System.out.println("Команда не распознана.");
+                break;
+        }
+
+    }
+
+    public String[] cmdParser(String s) {
+        try {
+            Scanner scanner = new Scanner(s);
+            if (!(s.indexOf(" ") == -1)) {
+                scanner.useDelimiter("\\s");
+                String command = scanner.next();
+                String data = "";
+                if (scanner.hasNext()) {
+                    data = scanner.next();
+                }
+                return new String[]{command, data};
+            } else {
+                String commandwodata = scanner.next();
+                return new String[]{commandwodata};
+            }
+        } catch (NoSuchElementException e) {
+            return new String[]{"  "};
+        }
     }
 
 }

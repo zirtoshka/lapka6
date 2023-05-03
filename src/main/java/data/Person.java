@@ -1,15 +1,19 @@
 package data;
 
-import org.example.IO.ConsoleManager;
-import org.example.exceptions.IncorrectValuesForGroupException;
-import org.example.exceptions.NotNullException;
-import org.example.exceptions.WrongNameException;
 
+
+import IO.ConsoleManager;
+import exceptions.IncorrectValuesForGroupException;
+import exceptions.NotNullException;
+import exceptions.WrongNameException;
+
+import java.io.Serializable;
 import java.util.Date;
 
-import static org.example.IO.ScannerManager.patternSymbols;
+import static IO.ScannerManager.patternSymbols;
 
-public class Person {
+
+public class Person implements Serializable {
     private String name; //Поле не может быть null, Строка не может быть пустой
     private final String defaultName = "default_name";
     private Date birthday; //Поле может быть null
@@ -20,7 +24,7 @@ public class Person {
     private final ColorHair defaultHairColor = ColorHair.DEFAULT_COLOR;
     private Country nationality; //Поле может быть null
     private final Country defaultCountry = Country.DEFAULT_COUNTRY;
-    public Person() throws IncorrectValuesForGroupException{
+    public Person() throws IncorrectValuesForGroupException {
         this.setName(defaultName);
         this.setBirthday(defaultBirthday);
         this.setEyeColor(defaultEyeColor);

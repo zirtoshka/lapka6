@@ -6,6 +6,10 @@ import utilities.CollectionManager;
 public class ShowCommand extends Command {
     private  CollectionManager collectionManager;
 
+    public void setCollectionManager(CollectionManager collectionManager) {
+        this.collectionManager = collectionManager;
+    }
+
     public ShowCommand() {
         super("show", "Show collection");
     }

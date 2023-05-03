@@ -1,7 +1,6 @@
 package utilities;
 
 
-
 import IO.ConsoleManager;
 import data.StudyGroup;
 import exceptions.NullCollectionException;
@@ -16,7 +15,7 @@ public class CollectionManager {
 
     private Integer newId = 1;
     private final int SIZE_EMPTY = 0;
-    private final String emptyCollection = "empty";
+    private final String emptyCollection = "Collection is empty";
     private final FileManager fileManager;
 
     private LocalDateTime lastInitTime;
@@ -46,9 +45,9 @@ public class CollectionManager {
                     }
                 }
             }
-         if(studyGroupCollection == null){
-             createCollection();
-         }
+            if (studyGroupCollection == null) {
+                createCollection();
+            }
         } catch (FileNotFoundException e) {
             ConsoleManager.printError(e);
         }
@@ -74,10 +73,11 @@ public class CollectionManager {
         studyGroupCollection.add(studyGroupFromUser);
         lastInitTime = LocalDateTime.now();
     }
-    public void addToCollectionIfMax(StudyGroup studyGroupFromUser){
-        if (studyGroupFromUser.getStudentsCount()>getMaxNumberInGroup()){
+
+    public void addToCollectionIfMax(StudyGroup studyGroupFromUser) {
+        if (studyGroupFromUser.getStudentsCount() > getMaxNumberInGroup()) {
             studyGroupCollection.add(studyGroupFromUser);
-            lastInitTime=LocalDateTime.now();
+            lastInitTime = LocalDateTime.now();
         }
     }
 
@@ -93,7 +93,7 @@ public class CollectionManager {
         try {
             if (studyGroupCollection.isEmpty()) throw new NullCollectionException();
             return studyGroupCollection.getClass().getName();
-        } catch (NullCollectionException e) {
+        } catch (NullCollectionException | NullPointerException e) {
             ConsoleManager.printError("Collection is empty");
         }
         return emptyCollection;
@@ -107,6 +107,14 @@ public class CollectionManager {
             return SIZE_EMPTY;
         }
 
+    }
+
+    public String printInfo() {
+        return "Collection info:\n" +
+                " Type: " + collectionType() +
+                "\n Quantity: " + collectionSize() +
+                "\n Last save: " + lastSaveTime +
+                "\n Last enter: " + lastInitTime;
     }
 
     public void clearCollection() {

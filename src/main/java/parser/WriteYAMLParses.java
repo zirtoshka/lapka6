@@ -3,7 +3,7 @@ package parser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.example.data.StudyGroup;
+import data.StudyGroup;
 
 import java.io.File;
 import java.io.IOException;

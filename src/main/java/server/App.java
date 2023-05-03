@@ -7,6 +7,5 @@ public class App {
         while(true) {
             server.run();
         }
-//        server.close();
     }
 }

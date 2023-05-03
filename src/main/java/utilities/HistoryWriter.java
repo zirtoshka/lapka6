@@ -1,7 +1,9 @@
 package utilities;
+import java.io.Serializable;
+
 import static config.ConfigData.NUMBER_OF_CMD;
 
-public class HistoryWriter {
+public class HistoryWriter implements Serializable {
     private String[] history;
 
     public HistoryWriter() {
@@ -13,9 +15,9 @@ public class HistoryWriter {
     }
 
     public void addInHistory(String newCommand) {
-        for (int i = 0; i < Main.NUMBER_OF_CMD -1; i++) {
+        for (int i = 0; i < NUMBER_OF_CMD -1; i++) {
             history[i] = history[i + 1];
         }
-        history[Main.NUMBER_OF_CMD -1] = newCommand;
+        history[NUMBER_OF_CMD -1] = newCommand;
     }
 }

@@ -1,6 +1,8 @@
 package data;
 
-public enum ColorHair {
+import java.io.Serializable;
+
+public enum ColorHair implements Serializable {
     RED("RED"),
     BLUE("BLUE"),
     YELLOW("YELLOW"),

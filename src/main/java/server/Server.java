@@ -1,8 +1,11 @@
 package server;
 
-import commands.AbstractCommand;
-import commands.Save;
-import utility.CollectionManager;
+
+import commands.Command;
+import commands.SaveCommand;
+import utilities.CollectionManager;
+import utilities.FileManager;
+import utilities.Module;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -12,6 +15,7 @@ public class Server {
 
     private int port;
     private Socket socket;
+
     private ServerSocket server;
     private ObjectInputStream inputStream;
     private ObjectOutputStream outputStream;
@@ -30,18 +34,20 @@ public class Server {
             }
         }
         stream = System.in;
-        Module.setCollectionManager(new CollectionManager());
+        Module.setCollectionManager(new CollectionManager(new FileManager("test.yml")));
     }
 
     public void run() {
         try {
             connect();
-            AbstractCommand command = null;
+            Command command = null;
             while (command == null) {
                 try {
-                    command = (AbstractCommand) getObject();
+                    command = (Command) getObject();
                 } catch (Exception e) {
                     e.printStackTrace();
+                    System.out.println("ffff");
+//                    System.exit(0);
                 }
             }
             boolean result = Module.running(command);
@@ -58,13 +64,13 @@ public class Server {
             if (stream.available() > 0) {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
                 if (reader.readLine().equals("save")) {
-                    Save save = new Save("save", "desc");
+                    SaveCommand save = new SaveCommand();
                     save.setCollectionManager(Module.getCollectionManager());
-                    save.exec();
+                    save.execute();
                     System.out.println("Коллекция сохранена.");
                 }
             }
-        } catch (IOException e) {
+        } catch ( IOException e) {
             e.printStackTrace();
         }
     }
