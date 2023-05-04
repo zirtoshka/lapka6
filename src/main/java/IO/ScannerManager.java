@@ -141,6 +141,10 @@ public class ScannerManager {
         return x;
 
     }
+    public static String askIdForCmd(){
+        Scanner scanner=new Scanner(System.in);
+        return scanner.nextLine();
+    }
 
     public static Float askCoordinatesY() throws IncorrectScriptException {
         String userY;

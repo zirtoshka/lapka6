@@ -1,6 +1,8 @@
 package commands;
 
 
+import utilities.Module;
+
 public class ExitCommand extends Command {
     private SaveCommand saveCommand;
 
@@ -17,6 +19,7 @@ public class ExitCommand extends Command {
     }
     @Override
     public boolean execute(){
+        Module.addMessage("The program is ending");
         return true;
     }
 }

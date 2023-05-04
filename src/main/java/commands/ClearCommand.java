@@ -2,6 +2,8 @@ package commands;
 
 
 import utilities.CollectionManager;
+import utilities.Module;
+
 public class ClearCommand extends Command {
     private  CollectionManager collectionManager;
 
@@ -17,6 +19,7 @@ public class ClearCommand extends Command {
     @Override
     public boolean execute() {
         collectionManager.clearCollection();
+        Module.addMessage("Collection is cleared");
         return true;
     }
 }

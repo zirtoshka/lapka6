@@ -92,6 +92,10 @@ public class Module {
             }case CONNECT:{
                 Connect connect=(Connect) command;
                 return connect.execute();
+            }case REMOVE_BY_ID:{
+                RemoveByIdCommand removeByIdCommand=(RemoveByIdCommand) command;
+                removeByIdCommand.setCollectionManager(collectionManager);
+                return removeByIdCommand.execute();
             }
 
         }

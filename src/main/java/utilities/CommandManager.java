@@ -6,6 +6,7 @@ import IO.ScannerManager;
 import client.Client;
 import commands.*;
 import data.StudyGroup;
+import exceptions.ArgsException;
 import exceptions.IncorrectScriptException;
 import exceptions.IncorrectValuesForGroupException;
 
@@ -16,6 +17,7 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import static config.ConfigData.*;
+import static data.StudyGroup.wrongId;
 
 public class CommandManager {
 
@@ -58,8 +60,8 @@ public class CommandManager {
         this.filterContainsNameCmd = new FilterContainsNameCommand();
         this.printFieldDescendingSemesterCmd = new PrintFieldDescendingSemesterCommand();
         this.printUniqueAdminCmd = new PrintUniqueGroupAdminCommand();
-        this.helpCmd = new HelpCommand(infoCmd,showCmd,addCmd,updateByIdCmd,removeByIdCmd,clearCmd,saveCmd,
-                executeScriptCmd,exitCmd,headCmd,addIfMaxCmd,historyCmd,filterContainsNameCmd,printUniqueAdminCmd,printFieldDescendingSemesterCmd);
+        this.helpCmd = new HelpCommand(infoCmd, showCmd, addCmd, updateByIdCmd, removeByIdCmd, clearCmd, saveCmd,
+                executeScriptCmd, exitCmd, headCmd, addIfMaxCmd, historyCmd, filterContainsNameCmd, printUniqueAdminCmd, printFieldDescendingSemesterCmd);
         commands.add(helpCmd);
         commands.add(infoCmd);
         commands.add(showCmd);
@@ -86,9 +88,9 @@ public class CommandManager {
     }
 
     public static String help() {
-        String res="";
+        String res = "";
         for (Command cmd : commands) {
-            res+=("Command name - " + cmd.getName() + ". Command's description: " + cmd.getDescription() + "\n");
+            res += ("Command name - " + cmd.getName() + ". Command's description: " + cmd.getDescription() + "\n");
         }
         return res;
     }
@@ -152,32 +154,79 @@ public class CommandManager {
                 System.out.println("Запускаю команду " + helpCmd.getName() + " ...");
                 System.out.println(client.run(helpCmd));
                 break;
-            }case INFO:{
+            }
+            case INFO: {
                 System.out.println("Запускаю команду " + infoCmd.getName() + " ...");
                 System.out.println(client.run(infoCmd));
                 break;
-            }case ADD:{
+            }
+            case ADD: {
                 StudyGroup clientGroup = ScannerManager.askGroup(addCmd.getCollectionManager());
                 System.out.println("Запускаю команду " + addCmd.getName() + " ...");
                 addCmd.setArgGroup(clientGroup);
                 System.out.println(client.run(addCmd));
                 break;
-            }case SHOW:{
+            }
+            case SHOW: {
                 System.out.println("Запускаю команду " + showCmd.getName() + " ...");
                 System.out.println(client.run(showCmd));
                 break;
-            }case ADD_IF_MAX:
+            }
+            case ADD_IF_MAX: {
                 StudyGroup clientGroup = ScannerManager.askGroup(addIfMaxCmd.getCollectionManager());
                 System.out.println("Запускаю команду " + addIfMaxCmd.getName() + " ...");
                 addIfMaxCmd.setArgGroup(clientGroup);
                 System.out.println(client.run(addIfMaxCmd));
                 break;
-            default:
-                System.out.println("Команда не распознана.");
+            }
+            case CLEAR: {
+                System.out.println("Запускаю команду " + clearCmd.getName() + " ...");
+                System.out.println(client.run(clearCmd));
                 break;
-        }
+            }
+            case HEAD: {
+                System.out.println("Запускаю команду " + headCmd.getName() + " ...");
+                System.out.println(client.run(headCmd));
+                break;
+            }
+            case REMOVE_BY_ID:{
+                LinkedList<String> toId = new LinkedList<String>();
+                int lengthData = data.length;
+                boolean successGetId = false;
+                Integer id = wrongId;
+                while (!successGetId) {
+                    try {
+                        if(lengthData==1)
+                        {lengthData=0;
+                            throw new ArgsException();
+                            }
+                        if (lengthData>1){
+                        toId.addLast(data[1]);
+                        lengthData=0;}
 
+                        id = Integer.parseInt(toId.getLast());
+                        if (!(id > 0)) {
+                            throw new NumberFormatException();
+                        }
+                        successGetId = true;
+                    } catch (NumberFormatException e) {
+                        System.out.println("It can't be id\nEnter id:");
+                        toId.addLast(ScannerManager.askIdForCmd());
+                    } catch(ArgsException e){
+                System.out.println("what id is? why it is empty?\nEnter id:");
+                toId.addLast(ScannerManager.askIdForCmd());
+            }}
+            System.out.println("Запускаю команду " + removeByIdCmd.getName() + " " + id + " ...");
+            removeByIdCmd.setArgId(id);
+            System.out.println(client.run(removeByIdCmd));
+            break;
+        }
+        default:
+        System.out.println("Команда не распознана.");
+        break;
     }
+
+}
 
     public String[] cmdParser(String s) {
         try {
