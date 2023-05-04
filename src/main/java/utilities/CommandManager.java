@@ -166,7 +166,12 @@ public class CommandManager {
                 System.out.println("Запускаю команду " + showCmd.getName() + " ...");
                 System.out.println(client.run(showCmd));
                 break;
-            }
+            }case ADD_IF_MAX:
+                StudyGroup clientGroup = ScannerManager.askGroup(addIfMaxCmd.getCollectionManager());
+                System.out.println("Запускаю команду " + addIfMaxCmd.getName() + " ...");
+                addIfMaxCmd.setArgGroup(clientGroup);
+                System.out.println(client.run(addIfMaxCmd));
+                break;
             default:
                 System.out.println("Команда не распознана.");
                 break;

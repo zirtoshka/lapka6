@@ -48,31 +48,31 @@ public class CollectionManager {
     }
 
     public  Integer generateId() {
-        System.out.println("we have this id:");
-        Iterator<Integer> iterator = idSet.iterator();
-        while (iterator.hasNext()){ //checking
-            System.out.print(iterator.next()+" ");
-        }
-        System.out.println("we are going to generate new id");
         while (!idSet.add(newId)) {
             newId++;
         }
         return newId;
     }
 
-    public void addToCollection(StudyGroup studyGroupFromUser) {
+    public String addToCollection(StudyGroup studyGroupFromUser) {
         if (studyGroupFromUser.getId().equals(wrongId)){
             studyGroupFromUser.setId(generateId());
         }
         studyGroupCollection.add(studyGroupFromUser);
         lastInitTime = LocalDateTime.now();
+        return "StudyGroup added successfully";
     }
 
-    public void addToCollectionIfMax(StudyGroup studyGroupFromUser) {
+    public String addToCollectionIfMax(StudyGroup studyGroupFromUser) {
         if (studyGroupFromUser.getStudentsCount() > getMaxNumberInGroup()) {
+            if (studyGroupFromUser.getId().equals(wrongId)){
+                studyGroupFromUser.setId(generateId());
+            }
             studyGroupCollection.add(studyGroupFromUser);
             lastInitTime = LocalDateTime.now();
+            return "StudyGroup added successfully";
         }
+        return "The StudyGroup is less than maximum.";
     }
 
     public static LocalDateTime getLastInitTime() {

@@ -3,6 +3,7 @@ package commands;
 
 import data.StudyGroup;
 import utilities.CollectionManager;
+import utilities.Module;
 
 public class AddIfMaxCommand extends Command {
     private  CollectionManager collectionManager;
@@ -14,6 +15,9 @@ public class AddIfMaxCommand extends Command {
     public void setCollectionManager(CollectionManager collectionManager){
         this.collectionManager=collectionManager;
     }
+    public void setArgGroup(StudyGroup studyGroup){
+        this.studyGroup=studyGroup;
+    }
     public void setStudyGroup(StudyGroup studyGroup){
         this.studyGroup=studyGroup;
     }
@@ -21,8 +25,12 @@ public class AddIfMaxCommand extends Command {
 
     @Override
     public boolean execute() {
-        collectionManager.addToCollection(studyGroup);
+        Module.addMessage(collectionManager.addToCollectionIfMax(studyGroup));
         return true;
+    }
+
+    public CollectionManager getCollectionManager() {
+        return collectionManager;
     }
 }
 

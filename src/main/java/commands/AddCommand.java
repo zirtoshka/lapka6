@@ -3,6 +3,7 @@ package commands;
 
 import data.StudyGroup;
 import utilities.CollectionManager;
+import utilities.Module;
 
 public class AddCommand extends Command {
     private CollectionManager collectionManager;
@@ -24,7 +25,7 @@ public class AddCommand extends Command {
 
     @Override
     public boolean execute() {
-        collectionManager.addToCollection(argGroup);
+        Module.addMessage(collectionManager.addToCollection(argGroup));
         return true;
     }
 }

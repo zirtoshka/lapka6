@@ -26,7 +26,6 @@ public class Module {
             case ADD: {
                 AddCommand addCommand = (AddCommand) command;
                 addCommand.setCollectionManager(collectionManager);
-                System.out.println(collectionManager + "aaaaaaaaaaa");
                 return addCommand.execute();
             }
             case ADD_IF_MAX: {
