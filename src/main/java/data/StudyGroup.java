@@ -221,15 +221,15 @@ public class StudyGroup implements Serializable {
     @Override
     public String toString() {
         return "StudyGroup{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", coordinates=" + coordinates +
-                ", creationDate=" + creationDate +
-                ", studentsCount=" + studentsCount +
-                ", shouldBeExpelled=" + shouldBeExpelled +
-                ", averageMark=" + averageMark +
-                ", semesterEnum=" + semesterEnum +
-                ", groupAdmin=" + groupAdmin +
+                "\n id=" + id +
+                "\n name='" + name + '\'' +
+                "\n coordinates=" + coordinates +
+                "\n creationDate=" + creationDate +
+                "\n studentsCount=" + studentsCount +
+                "\n shouldBeExpelled=" + shouldBeExpelled +
+                "\n averageMark=" + averageMark +
+                "\n semesterEnum=" + semesterEnum +
+                "\n groupAdmin=" + groupAdmin +
                 '}';
     }
 

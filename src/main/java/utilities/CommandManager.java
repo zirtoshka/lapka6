@@ -2,8 +2,12 @@ package utilities;
 
 
 import IO.ConsoleManager;
+import IO.ScannerManager;
 import client.Client;
 import commands.*;
+import data.StudyGroup;
+import exceptions.IncorrectScriptException;
+import exceptions.IncorrectValuesForGroupException;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -141,7 +145,7 @@ public class CommandManager {
         return printFieldDescendingSemesterCmd.execute();
     }
 
-    public void managerWork(String s) throws IOException {
+    public void managerWork(String s) throws IOException, IncorrectScriptException, IncorrectValuesForGroupException {
         String[] data = cmdParser(s);
         switch (data[0]) {
             case HELP: {
@@ -151,6 +155,17 @@ public class CommandManager {
             }case INFO:{
                 System.out.println("Запускаю команду " + infoCmd.getName() + " ...");
                 System.out.println(client.run(infoCmd));
+                break;
+            }case ADD:{
+                StudyGroup clientGroup = ScannerManager.askGroup(addCmd.getCollectionManager());
+                System.out.println("Запускаю команду " + addCmd.getName() + " ...");
+                addCmd.setArgGroup(clientGroup);
+                System.out.println(client.run(addCmd));
+                break;
+            }case SHOW:{
+                System.out.println("Запускаю команду " + showCmd.getName() + " ...");
+                System.out.println(client.run(showCmd));
+                break;
             }
             default:
                 System.out.println("Команда не распознана.");

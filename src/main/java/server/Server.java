@@ -37,7 +37,7 @@ public class Server {
         Module.setCollectionManager(new CollectionManager(new FileManager("test.yml")));
     }
 
-    public void run() {
+    public void runServer() {
         try {
             connect();
             Command command = null;
@@ -50,7 +50,7 @@ public class Server {
 //                    System.exit(0);
                 }
             }
-            boolean result = Module.running(command);
+            boolean result = Module.runningCmd(command);
             if (result) {
                 Module.addMessage("Выполнение успешно.");
             } else {

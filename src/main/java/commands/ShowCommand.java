@@ -2,7 +2,7 @@ package commands;
 
 
 import utilities.CollectionManager;
-
+import utilities.Module;
 public class ShowCommand extends Command {
     private  CollectionManager collectionManager;
 
@@ -16,7 +16,7 @@ public class ShowCommand extends Command {
 
     @Override
     public boolean execute() {
-        System.out.println("doesn't work"+getName());
+        Module.addMessage(collectionManager.toString());
         return true;
     }
 

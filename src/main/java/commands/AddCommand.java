@@ -6,7 +6,7 @@ import utilities.CollectionManager;
 
 public class AddCommand extends Command {
     private CollectionManager collectionManager;
-    private  StudyGroup argGroupr;
+    private  StudyGroup argGroup;
 
     public AddCommand() {
         super("add", "add a new element to the collection");
@@ -14,13 +14,17 @@ public class AddCommand extends Command {
     public void setCollectionManager(CollectionManager manager){
         this.collectionManager=manager;
     }
-    public void setArgGroupr(StudyGroup argGroupr){
-        this.argGroupr=argGroupr;
+    public void setArgGroup(StudyGroup argGroup){
+        this.argGroup =argGroup;
+    }
+
+    public CollectionManager getCollectionManager() {
+        return collectionManager;
     }
 
     @Override
     public boolean execute() {
-        collectionManager.addToCollection(argGroupr);
+        collectionManager.addToCollection(argGroup);
         return true;
     }
 }

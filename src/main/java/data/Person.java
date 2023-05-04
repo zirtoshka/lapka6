@@ -122,11 +122,11 @@ public class Person implements Serializable {
     @Override
     public String toString() {
         return "Person{" +
-                "name='" + name + '\'' +
-                ", birthday=" + birthday +
-                ", eyeColor=" + eyeColor +
-                ", hairColor=" + hairColor +
-                ", nationality=" + nationality +
+                "\n   name='" + name + '\'' +
+                "\n   birthday=" + birthday +
+                "\n   eyeColor=" + eyeColor +
+                "\n   hairColor=" + hairColor +
+                "\n   nationality=" + nationality +
                 '}';
     }
 }

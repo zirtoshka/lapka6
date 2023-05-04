@@ -9,16 +9,18 @@ import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import static data.StudyGroup.wrongId;
+
 public class CollectionManager {
     private ArrayDeque<StudyGroup> studyGroupCollection;
-    private Set<Integer> idSet = new HashSet<>();
+    private  Set<Integer> idSet = new HashSet<>();
 
-    private Integer newId = 1;
+    private  Integer newId = 1;
     private final int SIZE_EMPTY = 0;
     private final String emptyCollection = "Collection is empty";
     private final FileManager fileManager;
 
-    private LocalDateTime lastInitTime;
+    private static LocalDateTime lastInitTime;
     private LocalDateTime lastSaveTime;
 
 
@@ -31,28 +33,11 @@ public class CollectionManager {
     public void createCollection() {
         this.studyGroupCollection = new ArrayDeque<StudyGroup>();
     }
+    public FileManager getFileManager(){return this.fileManager;}
 
 
-    public void loadFromFile() {
-        try {
-            this.studyGroupCollection = fileManager.loadFromFile();
-            if (collectionSize() != 0) {
-                for (StudyGroup stg : studyGroupCollection) {
-                    if (stg.getId() == StudyGroup.wrongId) {
-                        studyGroupCollection.remove(stg);
-                    } else {
-                        idSet.add(stg.getId());
-                    }
-                }
-            }
-            if (studyGroupCollection == null) {
-                createCollection();
-            }
-        } catch (FileNotFoundException e) {
-            ConsoleManager.printError(e);
-        }
 
-    }
+
 
     public void writeToFile() {
         fileManager.write(this.studyGroupCollection);
@@ -62,7 +47,13 @@ public class CollectionManager {
         return studyGroupCollection;
     }
 
-    public Integer generateId() {
+    public  Integer generateId() {
+        System.out.println("we have this id:");
+        Iterator<Integer> iterator = idSet.iterator();
+        while (iterator.hasNext()){ //checking
+            System.out.print(iterator.next()+" ");
+        }
+        System.out.println("we are going to generate new id");
         while (!idSet.add(newId)) {
             newId++;
         }
@@ -70,6 +61,9 @@ public class CollectionManager {
     }
 
     public void addToCollection(StudyGroup studyGroupFromUser) {
+        if (studyGroupFromUser.getId().equals(wrongId)){
+            studyGroupFromUser.setId(generateId());
+        }
         studyGroupCollection.add(studyGroupFromUser);
         lastInitTime = LocalDateTime.now();
     }
@@ -81,7 +75,7 @@ public class CollectionManager {
         }
     }
 
-    public LocalDateTime getLastInitTime() {
+    public static LocalDateTime getLastInitTime() {
         return lastInitTime;
     }
 
@@ -108,6 +102,28 @@ public class CollectionManager {
         }
 
     }
+        public void loadFromFile() {
+            try {
+                this.studyGroupCollection = fileManager.loadFromFile();
+                if (collectionSize() != 0) {
+                    for (StudyGroup stg : studyGroupCollection) {
+                        if (stg.getId() == wrongId) {
+                            studyGroupCollection.remove(stg);
+                        } else {
+                            idSet.add(stg.getId());
+
+                        }
+                    } Iterator<Integer> iterator = idSet.iterator();
+                    while (iterator.hasNext()){ //checking
+                        System.out.println(iterator.next());
+                    }
+                }
+                if (studyGroupCollection == null) {
+                    createCollection();
+                }
+            } catch (FileNotFoundException e) {
+                ConsoleManager.printError(e);
+            }}
 
     public String printInfo() {
         return "Collection info:\n" +

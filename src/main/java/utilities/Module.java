@@ -1,6 +1,5 @@
 package utilities;
 
-import client.App;
 import commands.*;
 
 import java.io.IOException;
@@ -14,7 +13,7 @@ public class Module {
     private static String outputMessage="";
     private static CommandManager commandManager;
 
-    public static boolean running(Command command) throws IOException {
+    public static boolean runningCmd(Command command) throws IOException {
         String currentCmd = command.getName();
         Scanner scanner = new Scanner(currentCmd);
         scanner.useDelimiter("\\s");
@@ -27,6 +26,7 @@ public class Module {
             case ADD: {
                 AddCommand addCommand = (AddCommand) command;
                 addCommand.setCollectionManager(collectionManager);
+                System.out.println(collectionManager + "aaaaaaaaaaa");
                 return addCommand.execute();
             }
             case ADD_IF_MAX: {
@@ -109,6 +109,11 @@ public class Module {
 
     public static void setCollectionManager(CollectionManager collectionManager) {
         Module.collectionManager = collectionManager;
+        if (!collectionManager.getFileManager().isFileEmpty()) {
+            collectionManager.loadFromFile();
+        } else {
+            collectionManager.createCollection();
+        }
 
 
     }

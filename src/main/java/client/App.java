@@ -2,6 +2,7 @@ package client;
 
 import IO.ScannerManager;
 import exceptions.Disconnect;
+import exceptions.IncorrectValuesForGroupException;
 import utilities.CommandManager;
 import utilities.Module;
 
@@ -21,6 +22,8 @@ public class App {
 
             } catch (Exception e) {
                 e.printStackTrace();
+            } catch (IncorrectValuesForGroupException e) {
+                throw new RuntimeException(e);
             }
         } catch (Disconnect e) {
             System.out.println(e.getMessage());

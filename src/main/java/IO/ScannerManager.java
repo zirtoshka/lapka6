@@ -2,6 +2,7 @@ package IO;
 
 import data.*;
 import exceptions.*;
+import utilities.CollectionManager;
 
 
 import java.util.Date;
@@ -12,6 +13,7 @@ import java.util.regex.Pattern;
 import static config.ConfigData.inputInfo;
 import static data.Coordinates.MAX_X;
 import static data.Coordinates.MIN_Y;
+import static data.StudyGroup.wrongId;
 
 
 public class ScannerManager {
@@ -51,6 +53,19 @@ public class ScannerManager {
             command = in.nextLine();
         }
         return command;
+    }
+    public static StudyGroup askGroup(CollectionManager collectionManager) throws IncorrectScriptException, IncorrectValuesForGroupException {
+        return new StudyGroup(
+                wrongId,
+                askGroupName(),
+                askCoordinates(),
+                collectionManager.getLastInitTime().now(),
+                askStudentCount(),
+                askShouldBeExpelled(),
+                askAverageMark(),
+                askSemesterEnum(),
+                askPerson());
+
     }
     public static String askName(String inputTitle, String typeOfName) throws IncorrectScriptException {
         String name;
