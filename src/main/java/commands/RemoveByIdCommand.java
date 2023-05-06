@@ -31,7 +31,7 @@ public class RemoveByIdCommand extends Command {
             StudyGroup studyGroup = collectionManager.getById(argId);
             System.out.println(argId);
             System.out.println(studyGroup);
-            if (studyGroup == null) throw new StudyGroupNullException();
+            if  (studyGroup == null) throw new StudyGroupNullException();
             collectionManager.removeById(studyGroup);
             Module.addMessage("Study group was removed");
             return true;

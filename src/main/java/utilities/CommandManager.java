@@ -1,7 +1,6 @@
 package utilities;
 
 
-import IO.ConsoleManager;
 import IO.ScannerManager;
 import client.Client;
 import commands.*;
@@ -189,7 +188,71 @@ public class CommandManager {
                 System.out.println(client.run(headCmd));
                 break;
             }
-            case REMOVE_BY_ID:{
+            case REMOVE_BY_ID: {
+                LinkedList<String> toId = new LinkedList<String>();
+                int lengthData = data.length;
+                boolean successGetId = false;
+                Integer id = wrongId;
+                while (!successGetId) {
+                    try {
+                        if (lengthData == 1) {
+                            lengthData = 0;
+                            throw new ArgsException();
+                        }
+                        if (lengthData > 1) {
+                            toId.addLast(data[1]);
+                            lengthData = 0;
+                        }
+
+                        id = Integer.parseInt(toId.getLast());
+                        if (!(id > 0)) {
+                            throw new NumberFormatException();
+                        }
+                        successGetId = true;
+                    } catch (NumberFormatException e) {
+                        System.out.println("It can't be id\nEnter id:");
+                        toId.addLast(ScannerManager.askArgForCmd());
+                    } catch (ArgsException e) {
+                        System.out.println("what id is? why it is empty?\nEnter id:");
+                        toId.addLast(ScannerManager.askArgForCmd());
+                    }
+                }
+                System.out.println("Запускаю команду " + removeByIdCmd.getName() + " " + id + " ...");
+                removeByIdCmd.setArgId(id);
+                System.out.println(client.run(removeByIdCmd));
+                break;
+            }
+            case EXIT: {
+                System.out.println("Запускаю команду " + exitCmd.getName() + " ...");
+                exitCmd.setSaveCommand(saveCmd);
+                System.out.println(client.run(exitCmd));
+                break;
+            }
+            case FILTER_CONTAINS_NAME: {
+                LinkedList<String> toName = new LinkedList<String>();
+                int lengthData = data.length;
+                boolean successGetName = false;
+                while (!successGetName) {
+                    try {
+                        if (lengthData == 1) {
+                            lengthData = 0;
+                            throw new ArgsException();
+                        }
+                        if (lengthData > 1) {
+                            toName.addLast(data[1]);
+                            lengthData = 0;
+                        }
+                        successGetName = true;
+                    } catch (ArgsException e) {
+                        System.out.println("What do I need to find??? why it is empty?\nEnter name:");
+                        toName.addLast(ScannerManager.askArgForCmd());
+                    }
+                }
+                System.out.println("Запускаю команду " + filterContainsNameCmd.getName() + " " + toName.getLast() + " ...");
+                filterContainsNameCmd.setName(toName.getLast());
+                System.out.println(client.run(filterContainsNameCmd));
+                break;
+            } case UPDATE_BY_ID:{
                 LinkedList<String> toId = new LinkedList<String>();
                 int lengthData = data.length;
                 boolean successGetId = false;
@@ -199,10 +262,10 @@ public class CommandManager {
                         if(lengthData==1)
                         {lengthData=0;
                             throw new ArgsException();
-                            }
+                        }
                         if (lengthData>1){
-                        toId.addLast(data[1]);
-                        lengthData=0;}
+                            toId.addLast(data[1]);
+                            lengthData=0;}
 
                         id = Integer.parseInt(toId.getLast());
                         if (!(id > 0)) {
@@ -211,22 +274,32 @@ public class CommandManager {
                         successGetId = true;
                     } catch (NumberFormatException e) {
                         System.out.println("It can't be id\nEnter id:");
-                        toId.addLast(ScannerManager.askIdForCmd());
+                        toId.addLast(ScannerManager.askArgForCmd());
                     } catch(ArgsException e){
-                System.out.println("what id is? why it is empty?\nEnter id:");
-                toId.addLast(ScannerManager.askIdForCmd());
-            }}
-            System.out.println("Запускаю команду " + removeByIdCmd.getName() + " " + id + " ...");
-            removeByIdCmd.setArgId(id);
-            System.out.println(client.run(removeByIdCmd));
-            break;
+                        System.out.println("what id is? why it is empty?\nEnter id:");
+                        toId.addLast(ScannerManager.askArgForCmd());
+                    }}
+                System.out.println("Запускаю команду " + updateByIdCmd.getName() + " " + id + " ...");
+                StudyGroup clientGroup = ScannerManager.askQuestionForUpdate();
+                updateByIdCmd.setArgGroup(clientGroup);
+                updateByIdCmd.setId(id);
+                System.out.println(client.run(updateByIdCmd));
+                break;
+            }case PRINT_FIELD_DESCENDING_SEMESTER: {
+                System.out.println("Запускаю команду " + printFieldDescendingSemesterCmd.getName() + " ...");
+                System.out.println(client.run(printFieldDescendingSemesterCmd));
+                break;
+            }case PRINT_UNIQUE_GROUP_ADMIN: {
+                System.out.println("Запускаю команду " + printUniqueAdminCmd.getName() + " ...");
+                System.out.println(client.run(printUniqueAdminCmd));
+                break;
+            }
+            default:
+                System.out.println("Команда не распознана.");
+                break;
         }
-        default:
-        System.out.println("Команда не распознана.");
-        break;
-    }
 
-}
+    }
 
     public String[] cmdParser(String s) {
         try {

@@ -15,8 +15,8 @@ public enum Semester implements Serializable {
 
     public static String getList() {
         StringBuilder types = new StringBuilder();
-        for (Semester type : values()) {
-            if (!type.equals(DEFAULT_SEMESTER)) {
+        for (Semester type : Semester.values()) {
+            if (!type.equals(DEFAULT_SEMESTER) ) {
                 types.append(type.name()+" - "+type.ordinal()).append("; ");
             }
         }

@@ -19,7 +19,7 @@ public class Person implements Serializable {
     private Date birthday; //Поле может быть null
     private final Date defaultBirthday = null;
     private ColorEye eyeColor; //Поле не может быть null
-    private final ColorEye defaultEyeColor = ColorEye.DEFAULT_COLOR;
+    public static final ColorEye defaultEyeColor = ColorEye.DEFAULT_COLOR;
     private ColorHair hairColor; //Поле может быть null
     private final ColorHair defaultHairColor = ColorHair.DEFAULT_COLOR;
     private Country nationality; //Поле может быть null

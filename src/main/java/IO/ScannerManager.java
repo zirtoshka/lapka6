@@ -5,6 +5,7 @@ import exceptions.*;
 import utilities.CollectionManager;
 
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -13,7 +14,7 @@ import java.util.regex.Pattern;
 import static config.ConfigData.inputInfo;
 import static data.Coordinates.MAX_X;
 import static data.Coordinates.MIN_Y;
-import static data.StudyGroup.wrongId;
+import static data.StudyGroup.*;
 
 
 public class ScannerManager {
@@ -141,7 +142,7 @@ public class ScannerManager {
         return x;
 
     }
-    public static String askIdForCmd(){
+    public static String askArgForCmd(){
         Scanner scanner=new Scanner(System.in);
         return scanner.nextLine();
     }
@@ -490,6 +491,40 @@ public class ScannerManager {
         }
         return country;
     }
+    public static StudyGroup askQuestionForUpdate() throws IncorrectScriptException, IncorrectValuesForGroupException{
+            String name = wrongName;
+            Coordinates coordinates = wrongCoordinates;
+            LocalDateTime creationDate = LocalDateTime.now();
+            int studentsCount = WRONG_STUDENT_COUNT;
+            Integer shouldBeExpelled =wrongShouldBeExpelled;
+            double averageMark = WRONG_AVERAGE_MARK;
+            Semester semesterEnum = wrongSemesterEnum;
+            Person groupAdmin = new Person();
+            if (askQuestion("Change study group name?")) {
+                name = askGroupName();
+            }
+            if (askQuestion("Change study group coordinates?")) {
+                coordinates = askCoordinates();
+            }
+            if (askQuestion("Change the number of students in a group??")) {
+                studentsCount = askStudentCount();
+            }
+            if (askQuestion("Change the number of students to be expelled??")) {
+                shouldBeExpelled = askShouldBeExpelled();
+            }
+            if (askQuestion("Change study group average mark?")) {
+                averageMark = askAverageMark();
+            }
+            if (askQuestion("Change study group semester?")) {
+                semesterEnum = askSemesterEnum();
+            }
+            if (askQuestion("Change study group admin?")) {
+                groupAdmin = askPerson();
+            }
+            return new StudyGroup(wrongId, name, coordinates, creationDate, studentsCount,
+                    shouldBeExpelled, averageMark, semesterEnum, groupAdmin);
+
+    }
 
     public static boolean askQuestion(String question) throws IncorrectScriptException {
         String finalQuestion = question + " (+/-):";
@@ -497,20 +532,20 @@ public class ScannerManager {
         while (true) {
             try {
                 System.out.println(finalQuestion);
-                System.out.print(inputInfo);
+                System.out.println(inputInfo);
                 Scanner scanner = new Scanner(System.in);
                 answer = scanner.nextLine().trim();
                 if (answer.equals("")) throw new NotNullException();
                 if (!(answer.equals("+") || answer.equals("-"))) throw new IncorrectValueException();
                 break;
             } catch (NotNullException e) {
-                ConsoleManager.printError("I know that silence is golden. But what should I do with it? I only understand + and -");
+                System.out.println("I know that silence is golden. But what should I do with it? I only understand + and -");
                 if (filemode) throw new IncorrectScriptException();
             } catch (IncorrectValueException e) {
-                ConsoleManager.printError("I believed that you are a smart person and able to distinguish other characters from +/-");
+                System.out.println("I believed that you are a smart person and able to distinguish other characters from +/-");
                 if (filemode) throw new IncorrectScriptException();
             } catch (NoSuchElementException e) {
-                ConsoleManager.printError("Answer is ctrl+D. ok, bye");
+                System.out.println("Answer is ctrl+D. ok, bye");
                 if (filemode) throw new IncorrectScriptException();
                 System.exit(0);
             }

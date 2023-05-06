@@ -1,7 +1,9 @@
 package commands;
 
 
+import exceptions.NullCollectionException;
 import utilities.CollectionManager;
+import utilities.Module;
 
 public class PrintUniqueGroupAdminCommand extends Command {
     private  CollectionManager collectionManager;
@@ -15,7 +17,13 @@ public class PrintUniqueGroupAdminCommand extends Command {
 
     @Override
     public boolean execute() {
-        System.out.println("doesn't work"+getName());
+        try {
+            if(collectionManager.collectionSize()==0)throw new NullCollectionException();
+            Module.addMessage(collectionManager.printUniqueAdmin());
+
+        }catch (NullCollectionException e){
+            Module.addMessage("Collection is empty");
+        }
         return true;
 
     }

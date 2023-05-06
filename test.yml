@@ -5,13 +5,13 @@
     coordinatesX: 3.0
     coordinatesY: 3.0
   creationDate:
-    - 2023
-    - 5
-    - 4
-    - 13
-    - 5
-    - 14
-    - 871056000
+  - 2023
+  - 5
+  - 4
+  - 13
+  - 5
+  - 14
+  - 871056000
   studentsCount: 3
   shouldBeExpelled: 1
   averageMark: 3.0
@@ -22,3 +22,39 @@
     eyeColor: "GREEN"
     hairColor: "RED"
     nationality: "VATICAN"
+- id: 2
+  name: "dkfldfkdsfkerfr"
+  coordinates:
+    coordinatesX: 3.0
+    coordinatesY: 2.0
+  creationDate:
+  - 2023
+  - 5
+  - 6
+  - 11
+  - 39
+  - 45
+  - 693364000
+  studentsCount: 2
+  shouldBeExpelled: 2
+  averageMark: 2.0
+  semesterEnum: "FIFTH"
+  groupAdmin: null
+- id: 3
+  name: "gfdgdfgdf"
+  coordinates:
+    coordinatesX: 2.0
+    coordinatesY: 2.0
+  creationDate:
+  - 2023
+  - 5
+  - 6
+  - 11
+  - 40
+  - 0
+  - 990147000
+  studentsCount: 22
+  shouldBeExpelled: 2
+  averageMark: 2.0
+  semesterEnum: "FIFTH"
+  groupAdmin: null

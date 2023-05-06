@@ -9,7 +9,6 @@ import exceptions.IncorrectValuesForGroupException;
 import exceptions.NotNullException;
 import exceptions.WrongNameException;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -26,16 +25,22 @@ public class StudyGroup implements Serializable {
     public static final Integer wrongId = -1;
     private String name; //Поле не может быть null, Строка не может быть пустой
     private final String defaultName = "default_name";
+    public static final String wrongName=null;
+    public static final Coordinates wrongCoordinates = null;
     private Coordinates coordinates; //Поле не может быть null
     private final Coordinates defaultCoordinates = new Coordinates();
     private LocalDateTime creationDate; //Поле не может быть null, Значение этого поля должно генерироваться автоматически
     private final LocalDateTime defaultCreationDate = LocalDateTime.now();
+    public static final int WRONG_STUDENT_COUNT = -1;
     private int studentsCount; //Значение поля должно быть больше 0
     private int DEFAULT_STUDENT_COUNT = 1;
+    public static final Integer wrongShouldBeExpelled = -1;
     private Integer shouldBeExpelled; //Значение поля должно быть больше 0, Поле может быть null
     private final Integer defaultShouldBeExpelled = null;
+    public static final double WRONG_AVERAGE_MARK = 0;
     private double averageMark; //Значение поля должно быть больше 0
     private double DEFAULT_AVERAGE_MARK = 1;
+    public static final Semester wrongSemesterEnum = null;
     private Semester semesterEnum; //Поле не может быть null
     private final Semester defaultSemesterEnum = Semester.DEFAULT_SEMESTER;
     private Person groupAdmin; //Поле может быть null

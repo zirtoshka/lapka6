@@ -2,6 +2,7 @@ package utilities;
 
 
 import IO.ConsoleManager;
+import data.Semester;
 import data.StudyGroup;
 import exceptions.NullCollectionException;
 
@@ -9,7 +10,9 @@ import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import static data.Semester.DEFAULT_SEMESTER;
 import static data.StudyGroup.wrongId;
+import static java.time.chrono.JapaneseEra.values;
 
 public class CollectionManager {
     private ArrayDeque<StudyGroup> studyGroupCollection;
@@ -73,6 +76,33 @@ public class CollectionManager {
             return "StudyGroup added successfully";
         }
         return "The StudyGroup is less than maximum.";
+    }
+    public String printFieldDescendingSemester() {
+        String res = "";
+        Set<Semester> semesterSet = new HashSet<>();
+        studyGroupCollection.stream().forEach(studyGroup -> semesterSet.add(studyGroup.getSemesterEnum()));
+        for (Semester type : Semester.values()) {
+            if (!type.equals(DEFAULT_SEMESTER) && semesterSet.contains(type)) {
+                res += type.name()+"\n";
+            }
+        }
+        return res;
+    }
+    public String printUniqueAdmin(){
+        Set<String> nameSet1 = new HashSet<>();
+        Set<String> nameSet2 = new HashSet<>();
+        for (StudyGroup sg : getStudyGroupCollection()
+        ) {
+            if(!(sg.getGroupAdmin()==null)){
+            if (!nameSet1.add(sg.getGroupAdmin().getName())) {
+                nameSet2.add(sg.getGroupAdmin().getName());
+            }}
+        }
+        for (String a : nameSet2
+        ) {
+            nameSet1.remove(a);
+        }
+        return nameSet1.toString();
     }
 
     public static LocalDateTime getLastInitTime() {
