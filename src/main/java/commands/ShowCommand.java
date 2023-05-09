@@ -3,8 +3,9 @@ package commands;
 
 import utilities.CollectionManager;
 import utilities.Module;
+
 public class ShowCommand extends Command {
-    private  CollectionManager collectionManager;
+    private CollectionManager collectionManager;
 
     public void setCollectionManager(CollectionManager collectionManager) {
         this.collectionManager = collectionManager;

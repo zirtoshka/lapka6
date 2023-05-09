@@ -27,25 +27,26 @@ public class ScannerManager {
     public static Scanner scannerScript;
 
 
-    public static int askPort(){
+    public static int askPort() {
         boolean success = false;
         int port = 0;
         System.out.println("Enter port to connect");
-        while ((!success)){
-            try{
+        while ((!success)) {
+            try {
                 Scanner scanner = new Scanner(System.in);
                 port = Integer.parseInt(scanner.nextLine());
-                if(!(port>=1000 && port<30000)){
+                if (!(port >= 1000 && port < 30000)) {
                     throw new RuntimeException("incorrect  port, try again");
                 }
-                success=true;
-            } catch (Exception e){
+                success = true;
+            } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
         }
         System.out.println(port);
         return port;
     }
+
     public static String askCommand() {
         String command = "";
         while (command.equals("")) {
@@ -55,6 +56,7 @@ public class ScannerManager {
         }
         return command;
     }
+
     public static StudyGroup askGroup(CollectionManager collectionManager) throws IncorrectScriptException, IncorrectValuesForGroupException {
         return new StudyGroup(
                 wrongId,
@@ -68,6 +70,7 @@ public class ScannerManager {
                 askPerson());
 
     }
+
     public static String askName(String inputTitle, String typeOfName) throws IncorrectScriptException {
         String name;
         while (true) {
@@ -142,8 +145,9 @@ public class ScannerManager {
         return x;
 
     }
-    public static String askArgForCmd(){
-        Scanner scanner=new Scanner(System.in);
+
+    public static String askArgForCmd() {
+        Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
     }
 
@@ -213,10 +217,7 @@ public class ScannerManager {
                 count = Integer.parseInt(userCount);
                 if (count <= 0) throw new IncorrectValueException();
                 break;
-            } catch (NotNullException e) {
-                ConsoleManager.printError("Are you sure it could be the number of students??");
-                if (filemode) throw new IncorrectScriptException();
-            } catch (IncorrectValueException e) {
+            } catch (NotNullException | IncorrectValueException e) {
                 ConsoleManager.printError("Are you sure it could be the number of students??");
                 if (filemode) throw new IncorrectScriptException();
             } catch (NumberFormatException e) {
@@ -302,7 +303,7 @@ public class ScannerManager {
 
                 try {
                     semesterId = Integer.parseInt(userSemester);
-                    if( semesterId>=Semester.values().length -1 || semesterId<0){
+                    if (semesterId >= Semester.values().length - 1 || semesterId < 0) {
                         throw new IncorrectIndexInOrdinalEnumException();
                     }
                     semester = Semester.values()[semesterId];
@@ -380,7 +381,7 @@ public class ScannerManager {
                 if (userEyeColor.equals("")) throw new NotNullException();
                 try {
                     colorId = Integer.parseInt(userEyeColor);
-                    if( colorId>=Semester.values().length -1 || colorId<0){
+                    if (colorId >= Semester.values().length - 1 || colorId < 0) {
                         throw new IncorrectIndexInOrdinalEnumException();
                     }
 
@@ -423,7 +424,7 @@ public class ScannerManager {
                 if (userHairColor.equals("")) throw new NotNullException();
                 try {
                     colorId = Integer.parseInt(userHairColor);
-                    if( colorId>=Semester.values().length -1 || colorId<0){
+                    if (colorId >= Semester.values().length - 1 || colorId < 0) {
                         throw new IncorrectIndexInOrdinalEnumException();
                     }
                     colorHair = ColorHair.values()[colorId];
@@ -465,7 +466,7 @@ public class ScannerManager {
                 if (userCountry.isEmpty()) throw new NotNullException();
                 try {
                     countryId = Integer.parseInt(userCountry);
-                    if( countryId>=Semester.values().length -1 || countryId<0){
+                    if (countryId >= Semester.values().length - 1 || countryId < 0) {
                         throw new IncorrectIndexInOrdinalEnumException();
                     }
                     country = Country.values()[countryId];
@@ -491,38 +492,39 @@ public class ScannerManager {
         }
         return country;
     }
-    public static StudyGroup askQuestionForUpdate() throws IncorrectScriptException, IncorrectValuesForGroupException{
-            String name = wrongName;
-            Coordinates coordinates = wrongCoordinates;
-            LocalDateTime creationDate = LocalDateTime.now();
-            int studentsCount = WRONG_STUDENT_COUNT;
-            Integer shouldBeExpelled =wrongShouldBeExpelled;
-            double averageMark = WRONG_AVERAGE_MARK;
-            Semester semesterEnum = wrongSemesterEnum;
-            Person groupAdmin = new Person();
-            if (askQuestion("Change study group name?")) {
-                name = askGroupName();
-            }
-            if (askQuestion("Change study group coordinates?")) {
-                coordinates = askCoordinates();
-            }
-            if (askQuestion("Change the number of students in a group??")) {
-                studentsCount = askStudentCount();
-            }
-            if (askQuestion("Change the number of students to be expelled??")) {
-                shouldBeExpelled = askShouldBeExpelled();
-            }
-            if (askQuestion("Change study group average mark?")) {
-                averageMark = askAverageMark();
-            }
-            if (askQuestion("Change study group semester?")) {
-                semesterEnum = askSemesterEnum();
-            }
-            if (askQuestion("Change study group admin?")) {
-                groupAdmin = askPerson();
-            }
-            return new StudyGroup(wrongId, name, coordinates, creationDate, studentsCount,
-                    shouldBeExpelled, averageMark, semesterEnum, groupAdmin);
+
+    public static StudyGroup askQuestionForUpdate() throws IncorrectScriptException, IncorrectValuesForGroupException {
+        String name = wrongName;
+        Coordinates coordinates = wrongCoordinates;
+        LocalDateTime creationDate = LocalDateTime.now();
+        int studentsCount = WRONG_STUDENT_COUNT;
+        Integer shouldBeExpelled = wrongShouldBeExpelled;
+        double averageMark = WRONG_AVERAGE_MARK;
+        Semester semesterEnum = wrongSemesterEnum;
+        Person groupAdmin = new Person();
+        if (askQuestion("Change study group name?")) {
+            name = askGroupName();
+        }
+        if (askQuestion("Change study group coordinates?")) {
+            coordinates = askCoordinates();
+        }
+        if (askQuestion("Change the number of students in a group??")) {
+            studentsCount = askStudentCount();
+        }
+        if (askQuestion("Change the number of students to be expelled??")) {
+            shouldBeExpelled = askShouldBeExpelled();
+        }
+        if (askQuestion("Change study group average mark?")) {
+            averageMark = askAverageMark();
+        }
+        if (askQuestion("Change study group semester?")) {
+            semesterEnum = askSemesterEnum();
+        }
+        if (askQuestion("Change study group admin?")) {
+            groupAdmin = askPerson();
+        }
+        return new StudyGroup(wrongId, name, coordinates, creationDate, studentsCount,
+                shouldBeExpelled, averageMark, semesterEnum, groupAdmin);
 
     }
 
@@ -563,7 +565,7 @@ public class ScannerManager {
     }
 
     public static void setScanner(Scanner scriptScanner) {
-        scannerScript=scriptScanner;
+        scannerScript = scriptScanner;
     }
 
 }

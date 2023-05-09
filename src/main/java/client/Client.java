@@ -3,6 +3,7 @@ package client;
 
 import commands.Connect;
 import exceptions.Disconnect;
+
 import static config.ConfigData.CAPACITY_BUFFER;
 
 import java.io.IOException;
@@ -30,16 +31,16 @@ public class Client {
         System.out.println(2);
     }
 
-    public String run(Object o1){
-        String out="";
+    public String run(Object o1) {
+        String out = "";
         try {
             connect();
             sendObject(o1);
             out = (String) getObject();
             close();
-        } catch (IOException e){
+        } catch (IOException e) {
             System.out.println(e);
-            return "Отсутствует связь с сервером.";
+            return "ohh(( No connection with the server";
         }
         return out;
     }
@@ -71,11 +72,11 @@ public class Client {
     }
 
     private void findServer() throws Disconnect {
-        System.out.println("Подключаюсь к серверу...");
-        String result = run(new Connect("connect","подключение к серверу."));
-        if(!(result.equals("Выполнение успешно.\n"))) {
+        System.out.println("Connecting to the server...");
+        String result = run(new Connect("connect", "Connecting to the server"));
+        if (!(result.equals("Execution is successful\n"))) {
             System.out.println(result);
-            throw new Disconnect("Подключение не установлено");
+            throw new Disconnect("No connection");
         }
         System.out.println(result);
     }

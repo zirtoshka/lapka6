@@ -46,13 +46,6 @@ public class ConsoleManager {
         System.out.println("\u001B[45m" + message + "\u001B[0m");
     }
 
-    public static void printForNothing(Object message) {
-        System.out.println("\u001B[36m" + message + "\u001B[0m");
-    }
-
-    public static void printSuccess(Object message) {
-        System.out.println("\u001B[42m" + message + "\u001B[0m");
-    }
 
     public static void printError(Object message) {
         System.out.println("\u001B[33m" + message + "\u001B[0m");
@@ -169,25 +162,25 @@ public class ConsoleManager {
     }
 
 
-    public void toStartMode() throws IOException {
-        String[] userCmd = {"", ""};
-        int cmdStatus;
-        try {
-            do {
-                System.out.print(inputCommand);
-                Scanner scanner = new Scanner(System.in);
-                userCmd = (scanner.nextLine().trim() + " ").split(" ", 2);
-                userCmd[ARG_CMD] = userCmd[ARG_CMD].trim();
-                cmdStatus = launchCmd(userCmd);
-            } while (cmdStatus != 2);
-        }catch (NoSuchElementException e){
-            ConsoleManager.printError("You've entered ctrl+D, bye");
-        }
+//    public void toStartMode() throws IOException {
+//        String[] userCmd = {"", ""};
+//        int cmdStatus;
+//        try {
+//            do {
+//                System.out.print(inputCommand);
+//                Scanner scanner = new Scanner(System.in);
+//                userCmd = (scanner.nextLine().trim() + " ").split(" ", 2);
+//                userCmd[ARG_CMD] = userCmd[ARG_CMD].trim();
+//                cmdStatus = launchCmd(userCmd);
+//            } while (cmdStatus != 2);
+//        }catch (NoSuchElementException e){
+//            ConsoleManager.printError("You've entered ctrl+D, bye");
+//        }
 
 
 
 
-    }
+//    }
 
     public int scriptMode(String arg) throws IOException {
         String path;

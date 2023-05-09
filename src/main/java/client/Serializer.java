@@ -10,9 +10,10 @@ public class Serializer {
     ObjectOutputStream outputStream;
     ByteArrayOutputStream bytesOut;
 
-    public Serializer(){
+    public Serializer() {
 
     }
+
     public ByteBuffer serialize(Object o) throws IOException {
         bytesOut = new ByteArrayOutputStream();
         outputStream = new ObjectOutputStream(bytesOut);

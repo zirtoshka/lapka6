@@ -17,8 +17,9 @@ public class ExitCommand extends Command {
     public SaveCommand getSaveCommand() {
         return saveCommand;
     }
+
     @Override
-    public boolean execute(){
+    public boolean execute() {
         Module.addMessage("The program is ending");
         return true;
     }

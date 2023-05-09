@@ -10,8 +10,9 @@ public class InfoCommand extends Command {
     public InfoCommand() {
         super("info", "print information about the collection");
     }
-    public void setCollectionManager(CollectionManager collectionManager){
-        this.collectionManager=collectionManager;
+
+    public void setCollectionManager(CollectionManager collectionManager) {
+        this.collectionManager = collectionManager;
     }
 
     @Override

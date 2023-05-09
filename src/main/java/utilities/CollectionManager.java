@@ -12,13 +12,12 @@ import java.util.*;
 
 import static data.Semester.DEFAULT_SEMESTER;
 import static data.StudyGroup.wrongId;
-import static java.time.chrono.JapaneseEra.values;
 
 public class CollectionManager {
     private ArrayDeque<StudyGroup> studyGroupCollection;
-    private  Set<Integer> idSet = new HashSet<>();
+    private Set<Integer> idSet = new HashSet<>();
 
-    private  Integer newId = 1;
+    private Integer newId = 1;
     private final int SIZE_EMPTY = 0;
     private final String emptyCollection = "Collection is empty";
     private final FileManager fileManager;
@@ -36,10 +35,10 @@ public class CollectionManager {
     public void createCollection() {
         this.studyGroupCollection = new ArrayDeque<StudyGroup>();
     }
-    public FileManager getFileManager(){return this.fileManager;}
 
-
-
+    public FileManager getFileManager() {
+        return this.fileManager;
+    }
 
 
     public void writeToFile() {
@@ -50,7 +49,7 @@ public class CollectionManager {
         return studyGroupCollection;
     }
 
-    public  Integer generateId() {
+    public Integer generateId() {
         while (!idSet.add(newId)) {
             newId++;
         }
@@ -58,7 +57,7 @@ public class CollectionManager {
     }
 
     public String addToCollection(StudyGroup studyGroupFromUser) {
-        if (studyGroupFromUser.getId().equals(wrongId)){
+        if (studyGroupFromUser.getId().equals(wrongId)) {
             studyGroupFromUser.setId(generateId());
         }
         studyGroupCollection.add(studyGroupFromUser);
@@ -68,7 +67,7 @@ public class CollectionManager {
 
     public String addToCollectionIfMax(StudyGroup studyGroupFromUser) {
         if (studyGroupFromUser.getStudentsCount() > getMaxNumberInGroup()) {
-            if (studyGroupFromUser.getId().equals(wrongId)){
+            if (studyGroupFromUser.getId().equals(wrongId)) {
                 studyGroupFromUser.setId(generateId());
             }
             studyGroupCollection.add(studyGroupFromUser);
@@ -77,26 +76,29 @@ public class CollectionManager {
         }
         return "The StudyGroup is less than maximum.";
     }
+
     public String printFieldDescendingSemester() {
         String res = "";
         Set<Semester> semesterSet = new HashSet<>();
         studyGroupCollection.stream().forEach(studyGroup -> semesterSet.add(studyGroup.getSemesterEnum()));
         for (Semester type : Semester.values()) {
             if (!type.equals(DEFAULT_SEMESTER) && semesterSet.contains(type)) {
-                res += type.name()+"\n";
+                res += type.name() + "\n";
             }
         }
         return res;
     }
-    public String printUniqueAdmin(){
+
+    public String printUniqueAdmin() {
         Set<String> nameSet1 = new HashSet<>();
         Set<String> nameSet2 = new HashSet<>();
         for (StudyGroup sg : getStudyGroupCollection()
         ) {
-            if(!(sg.getGroupAdmin()==null)){
-            if (!nameSet1.add(sg.getGroupAdmin().getName())) {
-                nameSet2.add(sg.getGroupAdmin().getName());
-            }}
+            if (!(sg.getGroupAdmin() == null)) {
+                if (!nameSet1.add(sg.getGroupAdmin().getName())) {
+                    nameSet2.add(sg.getGroupAdmin().getName());
+                }
+            }
         }
         for (String a : nameSet2
         ) {
@@ -118,7 +120,7 @@ public class CollectionManager {
             if (studyGroupCollection.isEmpty()) throw new NullCollectionException();
             return studyGroupCollection.getClass().getName();
         } catch (NullCollectionException | NullPointerException e) {
-            ConsoleManager.printError("Collection is empty");
+            ConsoleManager.printError(emptyCollection);
         }
         return emptyCollection;
     }
@@ -132,28 +134,31 @@ public class CollectionManager {
         }
 
     }
-        public void loadFromFile() {
-            try {
-                this.studyGroupCollection = fileManager.loadFromFile();
-                if (collectionSize() != 0) {
-                    for (StudyGroup stg : studyGroupCollection) {
-                        if (stg.getId() == wrongId) {
-                            studyGroupCollection.remove(stg);
-                        } else {
-                            idSet.add(stg.getId());
 
-                        }
-                    } Iterator<Integer> iterator = idSet.iterator();
-                    while (iterator.hasNext()){ //checking
-                        System.out.println(iterator.next());
+    public void loadFromFile() {
+        try {
+            this.studyGroupCollection = fileManager.loadFromFile();
+            if (collectionSize() != 0) {
+                for (StudyGroup stg : studyGroupCollection) {
+                    if (stg.getId() == wrongId) {
+                        studyGroupCollection.remove(stg);
+                    } else {
+                        idSet.add(stg.getId());
+
                     }
                 }
-                if (studyGroupCollection == null) {
-                    createCollection();
+                Iterator<Integer> iterator = idSet.iterator();
+                while (iterator.hasNext()) { //checking
+                    System.out.println(iterator.next());
                 }
-            } catch (FileNotFoundException e) {
-                ConsoleManager.printError(e);
-            }}
+            }
+            if (studyGroupCollection == null) {
+                createCollection();
+            }
+        } catch (FileNotFoundException e) {
+            ConsoleManager.printError(e);
+        }
+    }
 
     public String printInfo() {
         return "Collection info:\n" +
@@ -182,7 +187,7 @@ public class CollectionManager {
             if (studyGroupCollection.isEmpty()) throw new NullCollectionException();
             return studyGroupCollection.getFirst().toString();
         } catch (NullCollectionException e) {
-            ConsoleManager.printError("Collection is empty");
+            ConsoleManager.printError(emptyCollection);
         }
         return emptyCollection;
     }
@@ -218,7 +223,7 @@ public class CollectionManager {
     @Override
     public String toString() {
         if (studyGroupCollection.isEmpty()) {
-            return "Collection is empty(((";
+            return emptyCollection + "(((";
         }
         StringBuilder info = new StringBuilder();
         for (StudyGroup studyGroup : studyGroupCollection) {

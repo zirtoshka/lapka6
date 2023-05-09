@@ -4,11 +4,10 @@ import IO.ScannerManager;
 import exceptions.Disconnect;
 import exceptions.IncorrectValuesForGroupException;
 import utilities.CommandManager;
-import utilities.Module;
 
 
 import java.io.IOException;
-import java.util.Scanner;
+
 
 public class App {
     public static void main(String[] args) throws IOException {

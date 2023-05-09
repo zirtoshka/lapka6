@@ -5,7 +5,7 @@ import utilities.CollectionManager;
 import utilities.Module;
 
 public class ClearCommand extends Command {
-    private  CollectionManager collectionManager;
+    private CollectionManager collectionManager;
 
     public ClearCommand() {
         super("clear", "clear collection");

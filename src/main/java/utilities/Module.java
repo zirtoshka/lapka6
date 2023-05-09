@@ -62,7 +62,7 @@ public class Module {
             }
             case HISTORY: {
                 HistoryCommand historyCommand = (HistoryCommand) command;
-                //TODO????
+                //TODO ????
                 return historyCommand.execute();
             }
             case INFO: {
@@ -122,7 +122,7 @@ public class Module {
     }
     public static void setCommandManager(CommandManager commandManager){
         Module.commandManager=commandManager;
-        System.out.println("command manager is set"+commandManager);
+        System.out.println("Command manager is set"+commandManager);
     }
     public static CommandManager getCommandManager(){
         return commandManager;

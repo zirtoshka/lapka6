@@ -2,6 +2,7 @@ package commands;
 
 
 import utilities.HistoryWriter;
+import utilities.Module;
 
 public class HistoryCommand extends Command {
     private final HistoryWriter historyWriter;
@@ -15,7 +16,7 @@ public class HistoryCommand extends Command {
 
     @Override
     public boolean execute() {
-        System.out.println("doesn't work"+getName());
+        Module.addMessage(historyWriter.getHistoryExc());
         return true;
     }
 }

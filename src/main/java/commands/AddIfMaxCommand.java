@@ -6,20 +6,23 @@ import utilities.CollectionManager;
 import utilities.Module;
 
 public class AddIfMaxCommand extends Command {
-    private  CollectionManager collectionManager;
+    private CollectionManager collectionManager;
     private StudyGroup studyGroup;
 
     public AddIfMaxCommand() {
         super("add_if_max", "add a new element if the number of students in the new group is more than in the others");
     }
-    public void setCollectionManager(CollectionManager collectionManager){
-        this.collectionManager=collectionManager;
+
+    public void setCollectionManager(CollectionManager collectionManager) {
+        this.collectionManager = collectionManager;
     }
-    public void setArgGroup(StudyGroup studyGroup){
-        this.studyGroup=studyGroup;
+
+    public void setArgGroup(StudyGroup studyGroup) {
+        this.studyGroup = studyGroup;
     }
-    public void setStudyGroup(StudyGroup studyGroup){
-        this.studyGroup=studyGroup;
+
+    public void setStudyGroup(StudyGroup studyGroup) {
+        this.studyGroup = studyGroup;
     }
 
 

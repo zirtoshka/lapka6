@@ -28,7 +28,7 @@ public class Server {
             try {
                 server = new ServerSocket(port);
                 connect = true;
-                System.out.println("Сервер поднят и доступен по порту " + port + " .");
+                System.out.println("The server is up and accessible by port " + port + " .");
             } catch (Exception e) {
                 port = (int) (Math.random() * 20000 + 10000);
             }
@@ -46,15 +46,15 @@ public class Server {
                     command = (Command) getObject();
                 } catch (Exception e) {
                     e.printStackTrace();
-                    System.out.println("ffff");
 //                    System.exit(0);
                 }
             }
             boolean result = Module.runningCmd(command);
             if (result) {
-                Module.addMessage("Выполнение успешно.");
+                Module.addMessage("Execution is successful");
+
             } else {
-                Module.addMessage("Выполнить команду не удалось.");
+                Module.addMessage("The command could not be executed ((");
             }
             sendObject(Module.messageFlush());
         } catch (Exception e) {
@@ -67,10 +67,10 @@ public class Server {
                     SaveCommand save = new SaveCommand();
                     save.setCollectionManager(Module.getCollectionManager());
                     save.execute();
-                    System.out.println("Коллекция сохранена.");
+                    System.out.println("Collection is saved");
                 }
             }
-        } catch ( IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

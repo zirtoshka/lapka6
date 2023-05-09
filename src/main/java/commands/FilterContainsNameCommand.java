@@ -6,14 +6,15 @@ import utilities.CollectionManager;
 import utilities.Module;
 
 public class FilterContainsNameCommand extends Command {
-    private  CollectionManager collectionManager;
+    private CollectionManager collectionManager;
     private String name;
 
-    public FilterContainsNameCommand( ) {
+    public FilterContainsNameCommand() {
         super("filter_contains_name <name>", "display elements whose name field value contains the given substring");
     }
-    public void setCollectionManager(CollectionManager collectionManager){
-        this.collectionManager=collectionManager;
+
+    public void setCollectionManager(CollectionManager collectionManager) {
+        this.collectionManager = collectionManager;
     }
 
     public void setName(String name) {
@@ -22,7 +23,7 @@ public class FilterContainsNameCommand extends Command {
 
 
     @Override
-    public boolean execute(){
+    public boolean execute() {
         try {
 
             if (collectionManager.collectionSize() == 0) throw new NullCollectionException();

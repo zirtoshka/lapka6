@@ -10,9 +10,6 @@ import exceptions.*;
 import utilities.CollectionManager;
 import utilities.Module;
 
-import java.time.LocalDateTime;
-
-import static IO.ScannerManager.*;
 
 public class UpdateByIdCommand extends Command {
     private CollectionManager collectionManager;
@@ -66,9 +63,9 @@ public class UpdateByIdCommand extends Command {
             if (!(argGroup.getSemesterEnum() == StudyGroup.wrongSemesterEnum)) {
                 studyGroup.setSemesterEnum(argGroup.getSemesterEnum());
             }
-            if(argGroup.getGroupAdmin()==null){
+            if (argGroup.getGroupAdmin() == null) {
                 studyGroup.setGroupAdmin(argGroup.getGroupAdmin());
-            }else if (argGroup.getGroupAdmin().getEyeColor() != Person.defaultEyeColor) {
+            } else if (argGroup.getGroupAdmin().getEyeColor() != Person.defaultEyeColor) {
                 studyGroup.setGroupAdmin(argGroup.getGroupAdmin());
             }
 
