@@ -62,7 +62,6 @@ public class Module {
             }
             case HISTORY: {
                 HistoryCommand historyCommand = (HistoryCommand) command;
-                //TODO ????
                 return historyCommand.execute();
             }
             case INFO: {

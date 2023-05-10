@@ -1,94 +1,17 @@
 ---
 - id: 1
-  name: "dsfsf"
+  name: "pusiki"
   coordinates:
-    coordinatesX: 3.0
-    coordinatesY: 3.0
+    coordinatesX: 1.0
+    coordinatesY: 2.0
   creationDate:
   - 2023
   - 5
-  - 4
+  - 10
   - 13
-  - 5
-  - 14
-  - 871056000
-  studentsCount: 3
-  shouldBeExpelled: 1
-  averageMark: 3.0
-  semesterEnum: "FIRST"
-  groupAdmin:
-    name: "dgdf"
-    birthday: 1094241600000
-    eyeColor: "GREEN"
-    hairColor: "RED"
-    nationality: "VATICAN"
-- id: 2
-  name: "dkfldfkdsfkerfr"
-  coordinates:
-    coordinatesX: 3.0
-    coordinatesY: 2.0
-  creationDate:
-  - 2023
-  - 5
+  - 1
   - 6
-  - 11
-  - 39
-  - 45
-  - 693364000
-  studentsCount: 2
-  shouldBeExpelled: 2
-  averageMark: 2.0
-  semesterEnum: "FIFTH"
-  groupAdmin: null
-- id: 3
-  name: "gfdgdfgdf"
-  coordinates:
-    coordinatesX: 2.0
-    coordinatesY: 2.0
-  creationDate:
-  - 2023
-  - 5
-  - 6
-  - 11
-  - 40
-  - 0
-  - 990147000
-  studentsCount: 22
-  shouldBeExpelled: 2
-  averageMark: 2.0
-  semesterEnum: "FIFTH"
-  groupAdmin: null
-- id: 4
-  name: "pusiki"
-  coordinates:
-    coordinatesX: 1.0
-    coordinatesY: 2.0
-  creationDate:
-  - 2023
-  - 5
-  - 10
-  - 11
-  - 57
-  - 53
-  - 88187000
-  studentsCount: 3
-  shouldBeExpelled: 4
-  averageMark: 5.0
-  semesterEnum: "FIRST"
-  groupAdmin: null
-- id: 5
-  name: "pusiki"
-  coordinates:
-    coordinatesX: 1.0
-    coordinatesY: 2.0
-  creationDate:
-  - 2023
-  - 5
-  - 10
-  - 11
-  - 58
-  - 31
-  - 575826000
+  - 593591000
   studentsCount: 3
   shouldBeExpelled: 4
   averageMark: 5.0

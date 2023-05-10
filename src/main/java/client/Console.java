@@ -5,6 +5,8 @@ import IO.ScannerManager;
 import exceptions.IncorrectValuesForGroupException;
 import utilities.CommandManager;
 
+import java.util.Scanner;
+
 
 public class Console {
 

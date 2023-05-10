@@ -417,7 +417,13 @@ public class CommandManager {
                         if (userCmd[ARG_CMD].equals(scri)) throw new ScriptRecurentException();
                     }
                 }
+
+
                 managerWork(userCmd[NAME_CMD]+" "+userCmd[ARG_CMD]);
+                if (userCmd[NAME_CMD].equals(EXIT)){
+                    System.exit(1);
+                }
+
             } while (scriptScanner.hasNextLine());
 
 //            if (!userCmd[NAME_CMD].equals(EXECUTE_SCRIPT) && userCmd[ARG_CMD].isEmpty()){
@@ -443,6 +449,12 @@ public class CommandManager {
     }
     private void setScannerScript(Scanner scanner){
         this.scriptScanner =scanner;
+    }
+    public Scanner getScriptScanner(){
+        return scriptScanner;
+    }
+    public boolean isRunScript(){
+        return runScript;
     }
 
 }

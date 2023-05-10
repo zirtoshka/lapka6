@@ -8,6 +8,7 @@ import exceptions.NotNullException;
 import exceptions.WrongNameException;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.Date;
 
 import static IO.ScannerManager.patternSymbols;
@@ -129,4 +130,5 @@ public class Person implements Serializable {
                 "\n   nationality=" + nationality +
                 '}';
     }
+
 }

@@ -26,9 +26,7 @@ public class Client {
         serializer = new Serializer();
         deserializer = new Deserializer();
         buffer = ByteBuffer.allocate(CAPACITY_BUFFER);
-        System.out.println(1);
         findServer();
-        System.out.println(2);
     }
 
     public String run(Object o1) {

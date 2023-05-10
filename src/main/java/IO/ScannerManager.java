@@ -51,8 +51,10 @@ public class ScannerManager {
         String command = "";
         while (command.equals("")) {
             System.out.print("Enter command: ");
+
             Scanner in = new Scanner((System.in));
             command = in.nextLine();
+
         }
         return command;
     }

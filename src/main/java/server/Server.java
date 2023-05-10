@@ -21,7 +21,7 @@ public class Server {
     private ObjectOutputStream outputStream;
     private InputStream stream;
 
-    public Server() {
+    public Server(String fileName) {
         this.port = 2022;
         boolean connect = false;
         while (!connect) {
@@ -34,7 +34,15 @@ public class Server {
             }
         }
         stream = System.in;
-        Module.setCollectionManager(new CollectionManager(new FileManager("test.yml")));
+
+        FileManager fileManager = new FileManager(fileName);
+        CollectionManager collectionManager = new CollectionManager(fileManager);
+        if (!fileManager.isFileEmpty()) {
+            collectionManager.loadFromFile();
+        } else {
+            collectionManager.createCollection();
+        }
+        Module.setCollectionManager(collectionManager);
     }
 
     public void runServer() {

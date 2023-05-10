@@ -16,7 +16,7 @@ import java.util.Objects;
 import static IO.ScannerManager.patternSymbols;
 
 
-public class StudyGroup implements Serializable {
+public class StudyGroup implements Serializable, Comparable {
     private Integer id; //Поле не может быть null,
     // Значение поля должно быть больше 0,
     // Значение этого поля должно быть уникальным,
@@ -248,6 +248,15 @@ public class StudyGroup implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, coordinates, creationDate, studentsCount, shouldBeExpelled, averageMark, semesterEnum, groupAdmin);
+        if (!(groupAdmin == null)) {
+            return getCoordinates().hashCode() + getGroupAdmin().hashCode() + getName().length();
+        } else {
+            return getCoordinates().hashCode() + getName().length();
+        }
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return this.hashCode()-o.hashCode();
     }
 }
