@@ -120,6 +120,8 @@ public class Module {
 
 
     }
+
+
     public static void setCommandManager(CommandManager commandManager){
         Module.commandManager=commandManager;
         System.out.println("Command manager is set"+commandManager);

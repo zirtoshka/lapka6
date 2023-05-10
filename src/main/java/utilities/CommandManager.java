@@ -5,10 +5,10 @@ import IO.ScannerManager;
 import client.Client;
 import commands.*;
 import data.StudyGroup;
-import exceptions.ArgsException;
-import exceptions.IncorrectScriptException;
-import exceptions.IncorrectValuesForGroupException;
+import exceptions.*;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,6 +23,11 @@ public class CommandManager {
 
     public static final List<Command> commands = new LinkedList<>();
 
+    private final List<String> script = new LinkedList<>();
+    boolean runScript = false;
+    Scanner scriptScanner = null;
+    private final int NAME_CMD = 0;
+    private final int ARG_CMD = 1;
     private final HelpCommand helpCmd;
     private final InfoCommand infoCmd;
     private final ShowCommand showCmd;
@@ -171,7 +176,8 @@ public class CommandManager {
                 break;
             }
             case ADD: {
-                StudyGroup clientGroup = ScannerManager.askGroup(addCmd.getCollectionManager());
+
+                StudyGroup clientGroup = ScannerManager.askGroup(addCmd.getCollectionManager(),  runScript, scriptScanner);
                 System.out.println(runCmd + addCmd.getName() + " ...");
                 addCmd.setArgGroup(clientGroup);
                 System.out.println(client.run(addCmd));
@@ -185,7 +191,7 @@ public class CommandManager {
                 break;
             }
             case ADD_IF_MAX: {
-                StudyGroup clientGroup = ScannerManager.askGroup(addIfMaxCmd.getCollectionManager());
+                StudyGroup clientGroup = ScannerManager.askGroup(addIfMaxCmd.getCollectionManager(), runScript, scriptScanner);
                 System.out.println(runCmd + addIfMaxCmd.getName() + " ...");
                 addIfMaxCmd.setArgGroup(clientGroup);
                 System.out.println(client.run(addIfMaxCmd));
@@ -302,7 +308,7 @@ public class CommandManager {
                     }
                 }
                 System.out.println(runCmd + updateByIdCmd.getName() + " " + id + " ...");
-                StudyGroup clientGroup = ScannerManager.askQuestionForUpdate();
+                StudyGroup clientGroup = ScannerManager.askQuestionForUpdate(runScript, scriptScanner);
                 updateByIdCmd.setArgGroup(clientGroup);
                 updateByIdCmd.setId(id);
                 System.out.println(client.run(updateByIdCmd));
@@ -326,7 +332,31 @@ public class CommandManager {
                 System.out.println(client.run(historyCmd));
                 historyWriter.addInHistory(HISTORY);
                 break;
-            }
+            }case EXECUTE_SCRIPT: {
+                LinkedList<String> toNameFile = new LinkedList<String>();
+                int lengthData = data.length;
+                boolean successGetFileName = false;
+                while (!successGetFileName) {
+                    try {
+                        if (lengthData == 1) {
+                            lengthData = 0;
+                            throw new ArgsException();
+                        }
+                        if (lengthData > 1) {
+                            toNameFile.addLast(data[1]);
+                            lengthData = 0;
+                        }
+                        successGetFileName = true;
+                    } catch (ArgsException e) {
+                        System.out.println("What do I need to execute??? why it is empty?\nEnter fileName:");
+                        toNameFile.addLast(ScannerManager.askArgForCmd());
+                    }
+                }
+                System.out.println(runCmd + executeScriptCmd.getName() +" "+toNameFile.getLast()+ " ...");
+                System.out.println(client.run(executeScriptCmd));
+                historyWriter.addInHistory(EXECUTE_SCRIPT);
+                scriptMode(toNameFile.getLast());
+                break;}
             default:
                 System.out.println("I don't know this command");
                 break;
@@ -357,6 +387,62 @@ public class CommandManager {
         } catch (NoSuchElementException e) {
             return new String[]{"  "};
         }
+    }
+
+    public void scriptMode(String arg) throws IOException {
+        String path;
+        String[] userCmd = {"", ""};
+        int cmdStatus;
+        script.add(arg);
+        try {
+            path = System.getenv("PWD") + "/" + arg;
+//            System.out.println(System.getenv("PWD") + "/" + arg);
+//            path= "/Users/zirtoshka/прога/lapka6/script";
+            File file = new File(path);
+            if (file.exists() && !file.canRead()) throw new NoAccessToFileException();
+            Scanner scriptScanner = new Scanner(file);
+            setScannerScript(scriptScanner);
+            if (!scriptScanner.hasNext()) throw new NoSuchElementException();
+            runScript = true;
+            do {
+                userCmd = (scriptScanner.nextLine().trim() + " ").split(" ", 2);
+                userCmd[ARG_CMD] = userCmd[ARG_CMD].trim();
+                while (scriptScanner.hasNextLine() && userCmd[NAME_CMD].isEmpty()) {
+                    userCmd = (scriptScanner.nextLine().trim() + " ").split(" ", 2);
+                    userCmd[ARG_CMD] = userCmd[ARG_CMD].trim();
+                }
+                System.out.println(inputCommand + String.join(" ", userCmd));
+                if (userCmd[NAME_CMD].equals(EXECUTE_SCRIPT)) {
+                    for (String scri : script) {
+                        if (userCmd[ARG_CMD].equals(scri)) throw new ScriptRecurentException();
+                    }
+                }
+                managerWork(userCmd[NAME_CMD]+" "+userCmd[ARG_CMD]);
+            } while (scriptScanner.hasNextLine());
+
+//            if (!userCmd[NAME_CMD].equals(EXECUTE_SCRIPT) && userCmd[ARG_CMD].isEmpty()){
+//                System.out.println();
+//                throw new IncorrectScriptException();}
+        } catch (NoAccessToFileException e) {
+            System.out.println("No rules");
+        } catch (NoSuchElementException e) {
+            System.out.println("I can't do anything with empty file");
+        } catch (FileNotFoundException e) {
+            System.out.println("No such file with script");
+        } catch (ScriptRecurentException e) {
+            System.out.println("Recurrent is cool, but I don't know how to use it");
+        } catch (IncorrectScriptException e) {
+            System.out.println("Script is incorrect");
+        } catch (IncorrectValuesForGroupException e) {
+            System.out.println("что-то с данными не так. не робит((");
+        } finally {
+            script.remove(script.size() - 1);
+        }
+        runScript = false;
+        setScannerScript(null);
+    }
+    private void setScannerScript(Scanner scanner){
+        this.scriptScanner =scanner;
     }
 
 }

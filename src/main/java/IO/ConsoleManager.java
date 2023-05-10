@@ -195,7 +195,7 @@ public class ConsoleManager {
             if (!scriptScanner.hasNext()) throw new NoSuchElementException();
 //            Scanner tmpScanner = ScannerManager.getScanner();
             ScannerManager.setScanner(scriptScanner);
-            ScannerManager.setFileMode();
+//            ScannerManager.setFileMode();
             do {
                 userCmd = (scriptScanner.nextLine().trim() + " ").split(" ", 2);
                 userCmd[ARG_CMD] = userCmd[ARG_CMD].trim();
@@ -212,7 +212,7 @@ public class ConsoleManager {
                 cmdStatus = launchCmd(userCmd);
             } while (cmdStatus == SUCCESSFUL_EXECUTION && scriptScanner.hasNextLine());
 //            ScannerManager.setScanner(tmpScanner);
-            ScannerManager.setUserMode();
+//            ScannerManager.setUserMode();
             if (cmdStatus == NOT_SUCCESSFUL_EXECUTION && !userCmd[NAME_CMD].equals(EXECUTE_SCRIPT) && userCmd[ARG_CMD].isEmpty())
                 throw new IncorrectScriptException();
             return cmdStatus;
