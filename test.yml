@@ -58,3 +58,39 @@
   averageMark: 2.0
   semesterEnum: "FIFTH"
   groupAdmin: null
+- id: 4
+  name: "pusiki"
+  coordinates:
+    coordinatesX: 1.0
+    coordinatesY: 2.0
+  creationDate:
+  - 2023
+  - 5
+  - 10
+  - 11
+  - 57
+  - 53
+  - 88187000
+  studentsCount: 3
+  shouldBeExpelled: 4
+  averageMark: 5.0
+  semesterEnum: "FIRST"
+  groupAdmin: null
+- id: 5
+  name: "pusiki"
+  coordinates:
+    coordinatesX: 1.0
+    coordinatesY: 2.0
+  creationDate:
+  - 2023
+  - 5
+  - 10
+  - 11
+  - 58
+  - 31
+  - 575826000
+  studentsCount: 3
+  shouldBeExpelled: 4
+  averageMark: 5.0
+  semesterEnum: "FIRST"
+  groupAdmin: null
