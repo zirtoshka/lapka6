@@ -21,4 +21,5 @@ public enum ColorEye implements Serializable {
         }
         return types.substring(0, types.length() - 2);
     }
+
 }

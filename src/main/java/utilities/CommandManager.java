@@ -17,6 +17,7 @@ import java.util.Scanner;
 
 import static config.ConfigData.*;
 import static data.StudyGroup.wrongId;
+import static utilities.GeneratorRandomData.generateRandomGroup;
 
 public class CommandManager {
     private final String runCmd = "Running the command ";
@@ -176,8 +177,11 @@ public class CommandManager {
                 break;
             }
             case ADD: {
-
-                StudyGroup clientGroup = ScannerManager.askGroup(addCmd.getCollectionManager(),  runScript, scriptScanner);
+                StudyGroup clientGroup;
+                if (ScannerManager.askQuestion("Do you want to generate data for a new study group?", runScript,scriptScanner)){
+                    clientGroup=generateRandomGroup();
+                }else{
+                 clientGroup= ScannerManager.askGroup(addCmd.getCollectionManager(),  runScript, scriptScanner);}
                 System.out.println(runCmd + addCmd.getName() + " ...");
                 addCmd.setArgGroup(clientGroup);
                 System.out.println(client.run(addCmd));

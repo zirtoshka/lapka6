@@ -75,6 +75,8 @@ public class StudyGroup implements Serializable, Comparable {
         this.groupAdmin = groupAdmin;
     }
 
+
+
     public void setName(String name) {
         try {
             if (name == null || name.isEmpty()) throw new NotNullException();
