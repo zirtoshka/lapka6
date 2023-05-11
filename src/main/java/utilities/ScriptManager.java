@@ -2,7 +2,6 @@ package utilities;
 
 import commands.*;
 
-import java.io.File;
 
 public class ScriptManager {
     private final HelpCommand helpCmd;

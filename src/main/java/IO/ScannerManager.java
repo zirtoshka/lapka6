@@ -30,7 +30,7 @@ public class ScannerManager {
     public static int askPort() {
         boolean success = false;
         int port = 0;
-        System.out.println("Enter port to connect");
+        System.out.println("Enter port to connect:");
         while ((!success)) {
             try {
                 Scanner scanner = new Scanner(System.in);
@@ -45,6 +45,21 @@ public class ScannerManager {
         }
         System.out.println(port);
         return port;
+    }
+
+    public static String askHost() {
+        Scanner scanner = new Scanner(System.in);
+        String host;
+        System.out.println("Enter host:");
+        try {
+            host=scanner.nextLine();
+            if (host.equals("")) throw new NotNullException();
+            return host;
+        }catch (NotNullException e){
+            System.out.println("Why host is empty?");
+            System.exit(0);
+        }
+        return "localhost";
     }
 
     public static String askCommand() {
@@ -560,10 +575,10 @@ public class ScannerManager {
         Semester semesterEnum = wrongSemesterEnum;
         Person groupAdmin = new Person();
         if (askQuestion("Change study group name?", runScript, scriptScanner)) {
-            name = askGroupName( runScript, scriptScanner);
+            name = askGroupName(runScript, scriptScanner);
         }
         if (askQuestion("Change study group coordinates?", runScript, scriptScanner)) {
-            coordinates = askCoordinates( runScript, scriptScanner);
+            coordinates = askCoordinates(runScript, scriptScanner);
         }
         if (askQuestion("Change the number of students in a group??", runScript, scriptScanner)) {
             studentsCount = askStudentCount(runScript, scriptScanner);
@@ -616,10 +631,6 @@ public class ScannerManager {
         }
         return answer.equals("+");
     }
-
-
-
-
 
 
     public static void setScanner(Scanner scriptScanner) {

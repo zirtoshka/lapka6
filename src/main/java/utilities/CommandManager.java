@@ -93,73 +93,7 @@ public class CommandManager {
         commands.add(printUniqueAdminCmd);
     }
 
-    public boolean info(String arg) throws IOException {
-        return infoCmd.execute();
-    }
 
-    public boolean show(String arg) throws IOException {
-        return showCmd.execute();
-    }
-
-    public static String help() {
-        String res = "";
-        for (Command cmd : commands) {
-            res += ("Command name - " + cmd.getName() + ". Command's description: " + cmd.getDescription() + "\n");
-        }
-        return res;
-    }
-
-    public boolean add(String arg) throws IOException {
-        return addCmd.execute();
-    }
-
-    public boolean updateById(String arg) throws IOException {
-        return updateByIdCmd.execute();
-    }
-
-    public boolean removeById(String arg) throws IOException {
-        return removeByIdCmd.execute();
-    }
-
-    public boolean clear(String arg) throws IOException {
-        return clearCmd.execute();
-    }
-
-    public boolean save(String arg) throws IOException {
-        return saveCmd.execute();
-    }
-
-    public boolean executeScript(String arg) throws IOException {
-        return executeScriptCmd.execute();
-    }
-
-    public boolean exit(String arg) throws IOException {
-        return exitCmd.execute();
-    }
-
-    public boolean head(String arg) throws IOException {
-        return headCmd.execute();
-    }
-
-    public boolean addIfMax(String arg) throws IOException {
-        return addIfMaxCmd.execute();
-    }
-
-    public boolean history(String arg) throws IOException {
-        return historyCmd.execute();
-    }
-
-    public boolean filterContainsName(String arg) throws IOException {
-        return filterContainsNameCmd.execute();
-    }
-
-    public boolean printUniqueAdmin(String arg) throws IOException {
-        return printUniqueAdminCmd.execute();
-    }
-
-    public boolean printFieldDescendingSemester(String arg) throws IOException {
-        return printFieldDescendingSemesterCmd.execute();
-    }
 
     public void managerWork(String s) throws IOException, IncorrectScriptException, IncorrectValuesForGroupException {
         String[] data = cmdParser(s);
@@ -364,14 +298,11 @@ public class CommandManager {
             default:
                 System.out.println("I don't know this command");
                 break;
-            //TODO : add fo script
         }
 
     }
 
-    public HistoryWriter getHistoryWriter() {
-        return historyWriter;
-    }
+
 
     public String[] cmdParser(String s) {
         try {
@@ -396,12 +327,9 @@ public class CommandManager {
     public void scriptMode(String arg) throws IOException {
         String path;
         String[] userCmd = {"", ""};
-        int cmdStatus;
         script.add(arg);
         try {
             path = System.getenv("PWD") + "/" + arg;
-//            System.out.println(System.getenv("PWD") + "/" + arg);
-//            path= "/Users/zirtoshka/прога/lapka6/script";
             File file = new File(path);
             if (file.exists() && !file.canRead()) throw new NoAccessToFileException();
             Scanner scriptScanner = new Scanner(file);
@@ -430,9 +358,6 @@ public class CommandManager {
 
             } while (scriptScanner.hasNextLine());
 
-//            if (!userCmd[NAME_CMD].equals(EXECUTE_SCRIPT) && userCmd[ARG_CMD].isEmpty()){
-//                System.out.println();
-//                throw new IncorrectScriptException();}
         } catch (NoAccessToFileException e) {
             System.out.println("No rules");
         } catch (NoSuchElementException e) {
@@ -454,11 +379,6 @@ public class CommandManager {
     private void setScannerScript(Scanner scanner){
         this.scriptScanner =scanner;
     }
-    public Scanner getScriptScanner(){
-        return scriptScanner;
-    }
-    public boolean isRunScript(){
-        return runScript;
-    }
+
 
 }

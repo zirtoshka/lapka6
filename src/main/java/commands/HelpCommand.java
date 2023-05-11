@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-import static utilities.CommandManager.help;
+//import static utilities.CommandManager.help;
 
 public class HelpCommand extends Command {
     private final List<Command> commands = new LinkedList<>();

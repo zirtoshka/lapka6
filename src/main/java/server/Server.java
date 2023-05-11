@@ -22,7 +22,7 @@ public class Server {
     private InputStream stream;
 
     public Server(String fileName) {
-        this.port = 2022;
+        this.port = 2023;
         boolean connect = false;
         while (!connect) {
             try {
@@ -54,7 +54,6 @@ public class Server {
                     command = (Command) getObject();
                 } catch (Exception e) {
                     e.printStackTrace();
-//                    System.exit(0);
                 }
             }
             boolean result = Module.runningCmd(command);
