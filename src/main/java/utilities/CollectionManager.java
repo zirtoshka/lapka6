@@ -4,11 +4,13 @@ package utilities;
 import IO.ConsoleManager;
 import data.Semester;
 import data.StudyGroup;
+import data.Person;
 import exceptions.NullCollectionException;
 
 import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static data.Semester.DEFAULT_SEMESTER;
 import static data.StudyGroup.wrongId;
@@ -78,33 +80,25 @@ public class CollectionManager {
     }
 
     public String printFieldDescendingSemester() {
-        String res = "";
-        Set<Semester> semesterSet = new HashSet<>();
-        studyGroupCollection.stream().forEach(studyGroup -> semesterSet.add(studyGroup.getSemesterEnum()));
-        for (Semester type : Semester.values()) {
-            if (!type.equals(DEFAULT_SEMESTER) && semesterSet.contains(type)) {
-                res += type.name() + "\n";
-            }
-        }
-        return res;
+        return studyGroupCollection.stream()
+                .map(StudyGroup::getSemesterEnum)
+                .distinct()
+                .filter(type -> !type.equals(DEFAULT_SEMESTER))
+                .sorted(Comparator.naturalOrder())
+                .map(Enum::name)
+                .collect(Collectors.joining("\n"));
     }
 
     public String printUniqueAdmin() {
-        Set<String> nameSet1 = new HashSet<>();
-        Set<String> nameSet2 = new HashSet<>();
-        for (StudyGroup sg : getStudyGroupCollection()
-        ) {
-            if (!(sg.getGroupAdmin() == null)) {
-                if (!nameSet1.add(sg.getGroupAdmin().getName())) {
-                    nameSet2.add(sg.getGroupAdmin().getName());
-                }
-            }
-        }
-        for (String a : nameSet2
-        ) {
-            nameSet1.remove(a);
-        }
-        return nameSet1.toString();
+        Set<String> uniqueAdminNames = getStudyGroupCollection().stream()
+                .map(StudyGroup::getGroupAdmin)
+                .filter(Objects::nonNull)
+                .collect(Collectors.groupingBy(Person::getName, Collectors.counting()))
+                .entrySet().stream()
+                .filter(entry -> entry.getValue() == 1)
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toSet());
+        return uniqueAdminNames.toString();
     }
 
     public static LocalDateTime getLastInitTime() {
@@ -144,12 +138,7 @@ public class CollectionManager {
                         studyGroupCollection.remove(stg);
                     } else {
                         idSet.add(stg.getId());
-
                     }
-                }
-                Iterator<Integer> iterator = idSet.iterator();
-                while (iterator.hasNext()) { //checking
-                    System.out.println(iterator.next());
                 }
             }
             if (studyGroupCollection == null) {
@@ -193,12 +182,10 @@ public class CollectionManager {
     }
 
     public StudyGroup getById(Integer id) {
-        for (StudyGroup studyGroup : studyGroupCollection) {
-            if (studyGroup.getId().equals(id)) {
-                return studyGroup;
-            }
-        }
-        return null;
+        return studyGroupCollection.stream()
+                .filter(studyGroup -> studyGroup.getId().equals(id))
+                .findFirst()
+                .orElse(null);
     }
 
     public void removeFromCollection(StudyGroup studyGroup) {
@@ -211,13 +198,10 @@ public class CollectionManager {
     }
 
     public int getMaxNumberInGroup() {
-        int res = -1;
-        for (StudyGroup group : studyGroupCollection) {
-            if (group.getStudentsCount() > res) {
-                res = group.getStudentsCount();
-            }
-        }
-        return res;
+        return studyGroupCollection.stream()
+                .mapToInt(StudyGroup::getStudentsCount)
+                .max()
+                .orElse(-1);
     }
 
     @Override
@@ -225,14 +209,9 @@ public class CollectionManager {
         if (studyGroupCollection.isEmpty()) {
             return emptyCollection + "(((";
         }
-        StringBuilder info = new StringBuilder();
-        for (StudyGroup studyGroup : studyGroupCollection) {
-            info.append(studyGroup.toString());
-            if (studyGroup != studyGroupCollection.getLast()) {
-                info.append("\n\n");
-            }
-        }
-        return info.toString();
+        return studyGroupCollection.stream()
+                .map(StudyGroup::toString)
+                .collect(Collectors.joining("\n\n"));
     }
 
 

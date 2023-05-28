@@ -1,8 +1,9 @@
 package data;
 
-import java.io.Serializable;
 
-public enum Semester implements Serializable {
+
+
+public enum Semester {
     FIRST("FIRST"),
     SECOND("SECOND"),
     FIFTH("FIFTH"),

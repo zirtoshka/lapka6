@@ -63,7 +63,7 @@ public class StudyGroup implements Serializable, Comparable {
 
     }
 
-    public StudyGroup(Integer id, String name, Coordinates coordinates, LocalDateTime creationDate, int studentsCount, Integer shouldBeExpelled, double averageMark, Semester semesterEnum, Person groupAdmin) throws IncorrectValuesForGroupException {
+    public StudyGroup(Integer id, String name, Coordinates coordinates, LocalDateTime creationDate, int studentsCount, Integer shouldBeExpelled, double averageMark, Semester semesterEnum, Person groupAdmin)  throws IncorrectValuesForGroupException{
         this.id = id;
         this.name = name;
         this.coordinates = coordinates;

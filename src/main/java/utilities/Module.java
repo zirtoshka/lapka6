@@ -10,7 +10,7 @@ import static config.ConfigData.*;
 public class Module {
 
     private static CollectionManager collectionManager;
-    private static String outputMessage="";
+    private static String outputMessage = "";
     private static CommandManager commandManager;
 
     public static boolean runningCmd(Command command) throws IOException {
@@ -88,11 +88,18 @@ public class Module {
                 UpdateByIdCommand updateByIdCommand = (UpdateByIdCommand) command;
                 updateByIdCommand.setCollectionManager(collectionManager);
                 return updateByIdCommand.execute();
-            }case CONNECT:{
-                Connect connect=(Connect) command;
+            }
+            case CHECK_ID: {
+                CheckIdCommand checkIdCommand=(CheckIdCommand) command;
+                checkIdCommand.setCollectionManager(collectionManager);
+                return checkIdCommand.execute();
+            }
+            case CONNECT: {
+                Connect connect = (Connect) command;
                 return connect.execute();
-            }case REMOVE_BY_ID:{
-                RemoveByIdCommand removeByIdCommand=(RemoveByIdCommand) command;
+            }
+            case REMOVE_BY_ID: {
+                RemoveByIdCommand removeByIdCommand = (RemoveByIdCommand) command;
                 removeByIdCommand.setCollectionManager(collectionManager);
                 return removeByIdCommand.execute();
             }
@@ -100,13 +107,15 @@ public class Module {
         }
         return false;
     }
-    public static String messageFlush(){
+
+    public static String messageFlush() {
         String output = Module.outputMessage;
-        Module.outputMessage="";
+        Module.outputMessage = "";
         return output;
     }
-    public static void addMessage(String msg){
-        outputMessage+=msg+"\n";
+
+    public static void addMessage(String msg) {
+        outputMessage += msg + "\n";
     }
 
     public static void setCollectionManager(CollectionManager collectionManager) {
@@ -121,11 +130,12 @@ public class Module {
     }
 
 
-    public static void setCommandManager(CommandManager commandManager){
-        Module.commandManager=commandManager;
-        System.out.println("Command manager is set"+commandManager);
+    public static void setCommandManager(CommandManager commandManager) {
+        Module.commandManager = commandManager;
+        System.out.println("Command manager is set" + commandManager);
     }
-    public static CommandManager getCommandManager(){
+
+    public static CommandManager getCommandManager() {
         return commandManager;
     }
 

@@ -1,5 +1,7 @@
 package commands;
 
+import IO.ConsoleManager;
+
 import java.io.IOException;
 
 public class Connect extends Command {
@@ -9,7 +11,7 @@ public class Connect extends Command {
 
     @Override
     public boolean execute() throws IOException {
-        System.out.println("A new client has connected to the server");
+        ConsoleManager.printInfoGreen("A new client has connected to the server");
         return true;
     }
 }

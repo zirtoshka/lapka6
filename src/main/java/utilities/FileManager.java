@@ -22,15 +22,7 @@ public class FileManager {
     public FileManager(String fileName){
         this.fileName = fileName;
         path = System.getenv("PWD")+"/"+fileName;
-//        System.out.println(System.getenv("PWD"));
-//        path="/Users/zirtoshka/прога/lapka6/src/main/java/utilities/test.yml";
     }
-
-
-    public String getFileName(){
-        return fileName;
-    }
-    public String getPath(){return path;}
     public boolean isFileEmpty() {
         File file = new File(path);
         return file.length() == 0;
@@ -42,7 +34,7 @@ public class FileManager {
             studyGroupCollection = yaml.read(path);
         }catch (IOException e){
             ConsoleManager.printError("Unknown issues with file. Now it's clean and collection is empty");
-            PrintWriter userFile = new PrintWriter(new File(path));
+            PrintWriter userFile = new PrintWriter(path);
             userFile.print("");
             userFile.close();
         }

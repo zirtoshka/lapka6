@@ -6,10 +6,9 @@ import java.io.ObjectInputStream;
 import java.nio.ByteBuffer;
 
 public class Deserializer {
-
-    public Deserializer get() {
-        return new Deserializer();
+    public Deserializer() {
     }
+
 
     public Object deserialize(ByteBuffer buffer) throws IOException, ClassNotFoundException {
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(buffer.array());

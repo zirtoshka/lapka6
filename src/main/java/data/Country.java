@@ -1,8 +1,9 @@
 package data;
 
-import java.io.Serializable;
 
-public enum Country implements Serializable {
+
+
+public enum Country{
     VATICAN("VATICAN"),
     THAILAND("THAILAND"),
     NORTH_KOREA("NORTH_KOREA"),

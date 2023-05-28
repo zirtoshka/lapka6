@@ -46,7 +46,7 @@ public class CommandManager {
     private final PrintUniqueGroupAdminCommand printUniqueAdminCmd;
     private final PrintFieldDescendingSemesterCommand printFieldDescendingSemesterCmd;
     private final HistoryWriter historyWriter;
-    private final ScriptManager scriptManager;
+    private final CheckIdCommand checkIdCmd;
 
 
     private final Client client;
@@ -70,12 +70,11 @@ public class CommandManager {
         this.filterContainsNameCmd = new FilterContainsNameCommand();
         this.printFieldDescendingSemesterCmd = new PrintFieldDescendingSemesterCommand();
         this.printUniqueAdminCmd = new PrintUniqueGroupAdminCommand();
+        this.checkIdCmd=new CheckIdCommand();
 
 
         this.helpCmd = new HelpCommand(infoCmd, showCmd, addCmd, updateByIdCmd, removeByIdCmd, clearCmd, saveCmd,
                 executeScriptCmd, exitCmd, headCmd, addIfMaxCmd, historyCmd, filterContainsNameCmd, printUniqueAdminCmd, printFieldDescendingSemesterCmd);
-        this.scriptManager = new ScriptManager(helpCmd, infoCmd, showCmd, addCmd, updateByIdCmd, removeByIdCmd, clearCmd, saveCmd, executeScriptCmd, exitCmd, headCmd, addIfMaxCmd, historyCmd,
-                filterContainsNameCmd, printUniqueAdminCmd, printFieldDescendingSemesterCmd, historyWriter);
         commands.add(helpCmd);
         commands.add(infoCmd);
         commands.add(showCmd);
@@ -95,7 +94,7 @@ public class CommandManager {
 
 
 
-    public void managerWork(String s) throws IOException, IncorrectScriptException, IncorrectValuesForGroupException {
+    public void managerWork(String s) throws IncorrectScriptException, IncorrectValuesForGroupException, ExitingException{
         String[] data = cmdParser(s);
         switch (data[0]) {
             case HELP: {
@@ -188,7 +187,7 @@ public class CommandManager {
                 exitCmd.setSaveCommand(saveCmd);
                 System.out.println(client.run(exitCmd));
                 historyWriter.addInHistory(EXIT);
-                break;
+                throw new ExitingException();
             }
             case FILTER_CONTAINS_NAME: {
                 LinkedList<String> toName = new LinkedList<String>();
@@ -245,10 +244,16 @@ public class CommandManager {
                         toId.addLast(ScannerManager.askArgForCmd());
                     }
                 }
+                updateByIdCmd.setId(id);
                 System.out.println(runCmd + updateByIdCmd.getName() + " " + id + " ...");
+                checkIdCmd.setId(id);
+                String res = client.run(checkIdCmd);
+                if (res.contains("The command could not be executed ((")){
+                    System.out.println(res);
+                    break;
+                }
                 StudyGroup clientGroup = ScannerManager.askQuestionForUpdate(runScript, scriptScanner);
                 updateByIdCmd.setArgGroup(clientGroup);
-                updateByIdCmd.setId(id);
                 System.out.println(client.run(updateByIdCmd));
                 historyWriter.addInHistory(UPDATE_BY_ID);
                 break;
@@ -324,7 +329,7 @@ public class CommandManager {
         }
     }
 
-    public void scriptMode(String arg) throws IOException {
+    public void scriptMode(String arg)  throws ExitingException{
         String path;
         String[] userCmd = {"", ""};
         script.add(arg);
@@ -369,7 +374,7 @@ public class CommandManager {
         } catch (IncorrectScriptException e) {
             System.out.println("Script is incorrect");
         } catch (IncorrectValuesForGroupException e) {
-            System.out.println("что-то с данными не так. не робит((");
+            System.out.println("Script consists of incorrect data for group");
         } finally {
             script.remove(script.size() - 1);
         }

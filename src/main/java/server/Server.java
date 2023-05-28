@@ -1,6 +1,7 @@
 package server;
 
 
+import IO.ConsoleManager;
 import commands.Command;
 import commands.SaveCommand;
 import utilities.CollectionManager;
@@ -20,15 +21,16 @@ public class Server {
     private ObjectInputStream inputStream;
     private ObjectOutputStream outputStream;
     private InputStream stream;
+    private final int DEFAULT_PORT=2023;
 
     public Server(String fileName) {
-        this.port = 2023;
+        this.port = DEFAULT_PORT;
         boolean connect = false;
         while (!connect) {
             try {
                 server = new ServerSocket(port);
                 connect = true;
-                System.out.println("The server is up and accessible by port " + port + " .");
+                ConsoleManager.printInfoPurple( "The server is up and accessible by port " + port + " .");
             } catch (Exception e) {
                 port = (int) (Math.random() * 20000 + 10000);
             }
@@ -64,7 +66,7 @@ public class Server {
                 Module.addMessage("The command could not be executed ((");
             }
             sendObject(Module.messageFlush());
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         try {
@@ -74,7 +76,7 @@ public class Server {
                     SaveCommand save = new SaveCommand();
                     save.setCollectionManager(Module.getCollectionManager());
                     save.execute();
-                    System.out.println("Collection is saved");
+                    ConsoleManager.printInfoGreen("Collection is saved");
                 }
             }
         } catch (IOException e) {
@@ -86,7 +88,7 @@ public class Server {
         socket = server.accept();
     }
 
-    private Object getObject() throws Exception {
+    private Object getObject() throws IOException, ClassNotFoundException {
         inputStream = new ObjectInputStream(socket.getInputStream());
         return inputStream.readObject();
     }

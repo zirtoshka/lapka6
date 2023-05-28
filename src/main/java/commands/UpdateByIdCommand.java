@@ -37,6 +37,10 @@ public class UpdateByIdCommand extends Command {
         return collectionManager;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
     @Override
     public boolean execute() {
         try {
@@ -81,9 +85,6 @@ public class UpdateByIdCommand extends Command {
         } catch (IncorrectValuesForGroupException e) {
             return false;
         }
-//        catch (IncorrectValuesForGroupException e){
-//            Module.addMessage("Script is in correct in cmd update_by_id");
-//        }
     }
 
 

@@ -22,4 +22,5 @@ public class ConfigData {
     public static final String SHOW = "show";
     public static final String UPDATE_BY_ID = "update_by_id";
     public static final String CONNECT="connect";
+    public static final String CHECK_ID="check_id";
 }

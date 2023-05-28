@@ -7,8 +7,8 @@ import java.nio.ByteBuffer;
 
 public class Serializer {
 
-    ObjectOutputStream outputStream;
-    ByteArrayOutputStream bytesOut;
+    private ObjectOutputStream outputStream;
+    private ByteArrayOutputStream bytesOut;
 
     public Serializer() {
 

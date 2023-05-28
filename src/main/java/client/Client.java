@@ -1,6 +1,7 @@
 package client;
 
 
+import IO.ConsoleManager;
 import commands.Connect;
 import exceptions.Disconnect;
 
@@ -36,7 +37,7 @@ public class Client {
             sendObject(o1);
             out = (String) getObject();
             close();
-        } catch (IOException e) {
+        } catch (IOException  e) {
             System.out.println(e);
             return "ohh(( No connection with the server";
         }
@@ -52,31 +53,30 @@ public class Client {
         client.write(serializer.serialize(object));
     }
 
-    private Object getObject() {
+    private Object getObject()  {
         while (true) {
             try {
+
                 client.read(buffer);
                 Object o = deserializer.deserialize(buffer);
                 buffer = ByteBuffer.allocate(CAPACITY_BUFFER);
                 return o;
-            } catch (Exception e) {
-//                e.printStackTrace();
+        }catch (IOException | ClassNotFoundException e){
             }
-        }
-    }
+    }}
 
     private void close() throws IOException {
         client.close();
     }
 
     private void findServer() throws Disconnect {
-        System.out.println("Connecting to the server...");
+        ConsoleManager.printInfoPurple( "Connecting to the server...");
         String result = run(new Connect("connect", "Connecting to the server"));
         if (!(result.equals("Execution is successful\n"))) {
-            System.out.println(result);
+            ConsoleManager.printInfoPurple(result);
             throw new Disconnect("No connection");
         }
-        System.out.println(result);
+        ConsoleManager.printInfoPurple(result);
     }
 
 

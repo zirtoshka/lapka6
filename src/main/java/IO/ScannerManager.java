@@ -7,6 +7,7 @@ import utilities.CollectionManager;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -18,58 +19,69 @@ import static data.StudyGroup.*;
 
 
 public class ScannerManager {
-    private static boolean filemode;
     public static final Pattern patternSymbols = Pattern.compile("\\w*");
     public static final Pattern patternNumber = Pattern.compile("(-?)\\d+(.\\d+)?");
 
     public static final Pattern patterndigits = Pattern.compile("\\d*");
 
-    public static Scanner scannerScript;
+    private static final int MIN_PORT = 1000;
+    private static final int MAX_PORT = 30000;
 
 
     public static int askPort() {
         boolean success = false;
         int port = 0;
-        System.out.println("Enter port to connect:");
+        ConsoleManager.printInfoPurple("Enter port to connect:");
+        Scanner scanner = new Scanner(System.in);
         while ((!success)) {
             try {
-                Scanner scanner = new Scanner(System.in);
                 port = Integer.parseInt(scanner.nextLine());
-                if (!(port >= 1000 && port < 30000)) {
-                    throw new RuntimeException("incorrect  port, try again");
+                if (!(port >= MIN_PORT && port < MAX_PORT)) {
+                    throw new IncorrectValueException();
                 }
                 success = true;
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
+            } catch (IncorrectValueException e) {
+                ConsoleManager.printError("Incorrect  port, try again");
+            }catch (NumberFormatException e){
+                ConsoleManager.printError("I cant parse this to int (port)");
+            }catch (NoSuchElementException e) {
+                ConsoleManager.printError("Port is ctrl+D. ok, bye");
+                System.exit(0);}
         }
-        System.out.println(port);
+        ConsoleManager.printInfoPurple("Your port is " + port);
         return port;
     }
 
     public static String askHost() {
         Scanner scanner = new Scanner(System.in);
-        String host;
-        System.out.println("Enter host:");
-        try {
-            host=scanner.nextLine();
-            if (host.equals("")) throw new NotNullException();
-            return host;
-        }catch (NotNullException e){
-            System.out.println("Why host is empty?");
-            System.exit(0);
+        boolean success = false;
+        String host = "";
+        ConsoleManager.printInfoPurple("Enter host:");
+        while (!success) {
+            try {
+                host = scanner.nextLine();
+                if (host.isEmpty()) throw new NotNullException();
+                success = true;
+            } catch (NotNullException e) {
+                ConsoleManager.printError("Why host is empty?");
+            } catch (NoSuchElementException e) {
+                ConsoleManager.printError("Host is ctrl+D. ok, bye");
+                System.exit(0);}
         }
-        return "localhost";
+        ConsoleManager.printInfoPurple("Your host is " + host);
+        return host;
     }
 
     public static String askCommand() {
         String command = "";
+        Scanner in = new Scanner((System.in));
         while (command.equals("")) {
-            System.out.print("Enter command: ");
-
-            Scanner in = new Scanner((System.in));
-            command = in.nextLine();
-
+            ConsoleManager.printInfoPurple("Enter command: ");
+            try {
+                command = in.nextLine();
+            }catch (NoSuchElementException e) {
+                    ConsoleManager.printError("Name is ctrl+D. ok, bye");
+                System.exit(0);}
         }
         return command;
     }
@@ -93,7 +105,7 @@ public class ScannerManager {
         Scanner scanner;
         while (true) {
             try {
-                System.out.println(inputTitle);
+                ConsoleManager.printInfoPurple(inputTitle);
                 System.out.print(inputInfo);
                 if (runScript) {
                     scanner = scriptScanner;
@@ -101,7 +113,7 @@ public class ScannerManager {
                     scanner = new Scanner(System.in);
                 }
                 name = scanner.nextLine().trim();
-                if (runScript) System.out.println(name);
+                if (runScript) ConsoleManager.printInfoCyan(name);
                 if (name.equals("")) throw new NotNullException();
                 if (!patternSymbols.matcher(name).matches()) throw new WrongNameException();
                 break;
@@ -135,7 +147,7 @@ public class ScannerManager {
         Scanner scanner;
         while (true) {
             try {
-                System.out.println("Enter X coordinate: ");
+                ConsoleManager.printInfoPurple("Enter X coordinate: ");
                 System.out.print(inputInfo);
                 if (runScript) {
                     scanner = scriptScanner;
@@ -149,7 +161,7 @@ public class ScannerManager {
                     userX = userX.replace(",", ".");
                 }
                 x = Double.parseDouble(userX);
-                if (x > MAX_X) throw new IncorrectValueException();
+                if (x.compareTo(MAX_X)>0) throw new IncorrectValueException();
                 break;
             } catch (NumberFormatException e) {
                 ConsoleManager.printError("Given String is not parsable to Double");
@@ -164,6 +176,7 @@ public class ScannerManager {
                 ConsoleManager.printError("This value has to be less than " + MAX_X);
                 if (runScript) throw new IncorrectScriptException();
             } catch (NoSuchElementException e) {
+                e.printStackTrace();
                 ConsoleManager.printError("X is ctrl+D. ok, bye");
                 if (runScript) throw new IncorrectScriptException();
                 System.exit(0);
@@ -184,7 +197,7 @@ public class ScannerManager {
         Scanner scanner;
         while (true) {
             try {
-                System.out.println("Enter Y coord:");
+                ConsoleManager.printInfoPurple("Enter Y coord:");
                 System.out.print(inputInfo);
                 if (runScript) {
                     scanner = scriptScanner;
@@ -194,7 +207,7 @@ public class ScannerManager {
                 userY = scanner.nextLine().trim();
                 if (userY.equals("")) throw new NotNullException();
                 if (!patternNumber.matcher(userY).matches()) throw new WrongNameException();
-                if (userY.indexOf(",") > -1) {
+                if (userY.contains(",")) {
                     userY = userY.replace(",", ".");
                 }
                 y = Float.parseFloat(userY);
@@ -242,7 +255,7 @@ public class ScannerManager {
         Scanner scanner;
         while (true) {
             try {
-                System.out.println("Enter the number of students in a group:");
+                ConsoleManager.printInfoPurple("Enter the number of students in a group:");
                 System.out.print(inputInfo);
                 if (runScript) {
                     scanner = scriptScanner;
@@ -274,7 +287,7 @@ public class ScannerManager {
         Scanner scanner;
         while (true) {
             try {
-                System.out.println("Enter the number of students to be expelled:");
+                ConsoleManager.printInfoPurple("Enter the number of students to be expelled:");
                 System.out.print(inputInfo);
                 if (runScript) {
                     scanner = scriptScanner;
@@ -309,7 +322,7 @@ public class ScannerManager {
         Scanner scanner;
         while (true) {
             try {
-                System.out.println("Enter average mark:");
+                ConsoleManager.printInfoPurple("Enter average mark:");
                 System.out.print(inputInfo);
                 if (runScript) {
                     scanner = scriptScanner;
@@ -335,37 +348,43 @@ public class ScannerManager {
         return countMark;
     }
 
-    public static Semester askSemesterEnum(boolean runScript, Scanner scriptScanner) throws IncorrectScriptException {
-        String userSemester;
-        Semester semester;
-        Integer semesterId;
+    private static <T extends Enum<T>> T askEnum(T[] values, boolean runScript, Scanner scriptScanner, String nameEnum, String list) throws IncorrectScriptException {
+        String userEnum;
+        Integer enumId;
+        T enumRes = null;
         Scanner scanner;
         while (true) {
             try {
-                System.out.println("Semester list - " + Semester.getList());
-                System.out.println("Enter your semester:");
+                ConsoleManager.printInfoPurple(nameEnum + "list - " + list);
+                ConsoleManager.printInfoPurple("Enter your " + nameEnum + ":");
                 System.out.print(inputInfo);
                 if (runScript) {
                     scanner = scriptScanner;
                 } else {
                     scanner = new Scanner(System.in);
                 }
-                userSemester = scanner.nextLine().trim();
-                if (userSemester.equals("")) throw new NotNullException();
-
+                userEnum = scanner.nextLine().trim();
+                if (userEnum.equals("")) {
+                    throw new NotNullException();
+                }
                 try {
-                    semesterId = Integer.parseInt(userSemester);
-                    if (semesterId >= Semester.values().length - 1 || semesterId < 0) {
+                    enumId = Integer.parseInt(userEnum);
+                    if (enumId >= values.length -1 || enumId < 0) {
                         throw new IncorrectIndexInOrdinalEnumException();
                     }
-                    semester = Semester.values()[semesterId];
-                    ConsoleManager.printInfoPurpleBackground(semester);
+                    enumRes = values[enumId];
                     break;
                 } catch (NumberFormatException e) {
-                    semester = Semester.valueOf(userSemester.toUpperCase());
+                    for (T en : values) {
+                        if (en.toString().equals(userEnum.toUpperCase())) {
+                            enumRes = en;
+                            break;
+                        }
+                    }
+                    if (enumRes == null) throw new IllegalArgumentException();
                     break;
                 } catch (IncorrectIndexInOrdinalEnumException e) {
-                    ConsoleManager.printError("I don't know this semester(");
+                    ConsoleManager.printError("I don't know this "+nameEnum);
                     if (runScript) throw new IncorrectScriptException();
                 }
 
@@ -373,15 +392,29 @@ public class ScannerManager {
                 ConsoleManager.printError("It can't be empty!!");
                 if (runScript) throw new IncorrectScriptException();
             } catch (IllegalArgumentException e) {
-                ConsoleManager.printError("I don't know this semester(");
+                ConsoleManager.printError("I don't know this "+nameEnum);
                 if (runScript) throw new IncorrectScriptException();
             } catch (NoSuchElementException e) {
-                ConsoleManager.printError("Semester is ctrl+D. ok, bye");
+                ConsoleManager.printError(nameEnum+" is ctrl+D. ok, bye");
                 if (runScript) throw new IncorrectScriptException();
                 System.exit(0);
             }
         }
-        return semester;
+        ConsoleManager.printInfoPurpleBackground(enumRes);
+        return enumRes;
+    }
+
+    public static Semester askSemesterEnum(boolean runScript, Scanner scriptScanner) throws IncorrectScriptException {
+        return askEnum(Semester.values(), runScript, scriptScanner, "semester", Semester.getList());
+    }
+    public static ColorEye askEyeColor(boolean runScript,Scanner scriptScanner) throws IncorrectScriptException{
+        return askEnum(ColorEye.values(),runScript, scriptScanner,"color", ColorEye.getList());
+    }
+    public static Country askNationality(boolean runScript, Scanner scriptScanner) throws IncorrectScriptException {
+        return askEnum(Country.values(), runScript, scriptScanner, "country", Country.getList());
+    }
+    public static ColorHair askHairColor(boolean runScript, Scanner scriptScanner) throws IncorrectScriptException {
+        return askEnum(ColorHair.values(),runScript,scriptScanner,"color",ColorHair.getList());
     }
 
     public static Person askPerson(boolean runScript, Scanner scriptScanner) throws IncorrectScriptException {
@@ -398,8 +431,8 @@ public class ScannerManager {
         Scanner scanner;
         while (true) {
             try {
-                System.out.println("You can use formats: 'January 19, 1970', '01/19/1970'");
-                System.out.println("Enter your birthday for admin: ");
+                ConsoleManager.printInfoPurple("You can use formats: 'January 19, 1970', '01/19/1970'");
+                ConsoleManager.printInfoPurple("Enter your birthday for admin: ");
                 System.out.print(inputInfo);
                 if (runScript) {
                     scanner = scriptScanner;
@@ -425,145 +458,6 @@ public class ScannerManager {
         return date;
     }
 
-    public static ColorEye askEyeColor(boolean runScript, Scanner scriptScanner) throws IncorrectScriptException {
-        String userEyeColor;
-        ColorEye colorEye;
-        Integer colorId;
-        Scanner scanner;
-        while (true) {
-            try {
-                System.out.println("Color eye list - " + ColorEye.getList());
-                System.out.println("Enter your color eye:");
-                System.out.print(inputInfo);
-                if (runScript) {
-                    scanner = scriptScanner;
-                } else {
-                    scanner = new Scanner(System.in);
-                }
-                userEyeColor = scanner.nextLine().trim();
-                if (userEyeColor.equals("")) throw new NotNullException();
-                try {
-                    colorId = Integer.parseInt(userEyeColor);
-                    if (colorId >= Semester.values().length - 1 || colorId < 0) {
-                        throw new IncorrectIndexInOrdinalEnumException();
-                    }
-
-                    colorEye = ColorEye.values()[colorId];
-                    ConsoleManager.printInfoPurpleBackground(colorEye);
-                    break;
-                } catch (NumberFormatException e) {
-                    colorEye = ColorEye.valueOf(userEyeColor.toUpperCase());
-                    break;
-                } catch (IncorrectIndexInOrdinalEnumException e) {
-                    ConsoleManager.printError("I don't know this color(");
-                    if (runScript) throw new IncorrectScriptException();
-                }
-            } catch (NotNullException e) {
-                ConsoleManager.printError("It can't be empty!!");
-                if (runScript) throw new IncorrectScriptException();
-            } catch (IllegalArgumentException e) {
-                ConsoleManager.printError("I don't know this eye color(");
-                if (runScript) throw new IncorrectScriptException();
-            } catch (NoSuchElementException e) {
-                ConsoleManager.printError("Color is ctrl+D. ok, bye");
-                if (runScript) throw new IncorrectScriptException();
-                System.exit(0);
-            }
-        }
-        return colorEye;
-    }
-
-    public static ColorHair askHairColor(boolean runScript, Scanner scriptScanner) throws IncorrectScriptException {
-        String userHairColor;
-        ColorHair colorHair;
-        Integer colorId;
-        Scanner scanner;
-        while (true) {
-            try {
-                System.out.println("Color hair list - " + ColorHair.getList());
-                System.out.println("Enter your color hair:");
-                System.out.print(inputInfo);
-                if (runScript) {
-                    scanner = scriptScanner;
-                } else {
-                    scanner = new Scanner(System.in);
-                }
-                userHairColor = scanner.nextLine().trim();
-                if (userHairColor.equals("")) throw new NotNullException();
-                try {
-                    colorId = Integer.parseInt(userHairColor);
-                    if (colorId >= Semester.values().length - 1 || colorId < 0) {
-                        throw new IncorrectIndexInOrdinalEnumException();
-                    }
-                    colorHair = ColorHair.values()[colorId];
-                    ConsoleManager.printInfoPurpleBackground(colorHair);
-                    break;
-                } catch (NumberFormatException e) {
-                    colorHair = ColorHair.valueOf(userHairColor.toUpperCase());
-                    break;
-                } catch (IncorrectIndexInOrdinalEnumException e) {
-                    ConsoleManager.printError("I don't know this color(");
-                    if (filemode) throw new IncorrectScriptException();
-                }
-            } catch (NotNullException e) {
-                return null;
-            } catch (IllegalArgumentException e) {
-                ConsoleManager.printError("I don't know this hair color(");
-                if (runScript) throw new IncorrectScriptException();
-            } catch (NoSuchElementException e) {
-                ConsoleManager.printError("Color is ctrl+D. ok, bye");
-                if (runScript) throw new IncorrectScriptException();
-                System.exit(0);
-            }
-        }
-        return colorHair;
-    }
-
-    public static Country askNationality(boolean runScript, Scanner scriptScanner) throws IncorrectScriptException {
-        String userCountry;
-        Country country;
-        Integer countryId;
-        Scanner scanner;
-        while (true) {
-            try {
-                System.out.println("Country list - " + Country.getList());
-                System.out.println("Enter your county:");
-                System.out.print(inputInfo);
-                if (runScript) {
-                    scanner = scriptScanner;
-                } else {
-                    scanner = new Scanner(System.in);
-                }
-                userCountry = scanner.nextLine().trim();
-                if (userCountry.isEmpty()) throw new NotNullException();
-                try {
-                    countryId = Integer.parseInt(userCountry);
-                    if (countryId >= Semester.values().length - 1 || countryId < 0) {
-                        throw new IncorrectIndexInOrdinalEnumException();
-                    }
-                    country = Country.values()[countryId];
-                    ConsoleManager.printInfoPurpleBackground(country);
-                    break;
-                } catch (NumberFormatException e) {
-                    country = Country.valueOf(userCountry.toUpperCase());
-                    break;
-                } catch (IncorrectIndexInOrdinalEnumException e) {
-                    ConsoleManager.printError("I don't know this country(");
-                    if (runScript) throw new IncorrectScriptException();
-                }
-            } catch (NotNullException e) {
-                return null;
-            } catch (IllegalArgumentException e) {
-                ConsoleManager.printError("I don't know this nationality(");
-                if (runScript) throw new IncorrectScriptException();
-            } catch (NoSuchElementException e) {
-                ConsoleManager.printError("Country is ctrl+D. ok, bye");
-                if (runScript) throw new IncorrectScriptException();
-                System.exit(0);
-            }
-        }
-        return country;
-    }
 
     public static StudyGroup askQuestionForUpdate(boolean runScript, Scanner scriptScanner) throws IncorrectScriptException, IncorrectValuesForGroupException {
         String name = wrongName;
@@ -606,7 +500,7 @@ public class ScannerManager {
         Scanner scanner;
         while (true) {
             try {
-                System.out.println(finalQuestion);
+                ConsoleManager.printInfoPurple(finalQuestion);
                 System.out.println(inputInfo);
                 if (runScript) {
                     scanner = scriptScanner;
@@ -631,10 +525,4 @@ public class ScannerManager {
         }
         return answer.equals("+");
     }
-
-
-    public static void setScanner(Scanner scriptScanner) {
-        scannerScript = scriptScanner;
-    }
-
 }

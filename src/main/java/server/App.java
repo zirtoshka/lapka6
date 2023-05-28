@@ -5,10 +5,8 @@ import IO.ConsoleManager;
 import utilities.FileManager;
 
 public class App {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         try {
-
-
             Server server = new Server(args[0]);
             while (true) {
                 server.runServer();
